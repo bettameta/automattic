@@ -2500,5 +2500,62 @@
     });
   });
 
-  // $("label:contains((Pro)) input,.spf-pro-only, .spf-pro-only input, .pro_checkbox input").attr('disabled', true).css('opacity', '0.8');
+// Disable some pro feature.
+$('.spf-field-select select option:contains("Pro")').attr('disabled', 'disabled').addClass('wpcp_pro_only').css({ 'pointer-events' : 'none','opacity' : '.8' });
+
+  /* Copy to clipboard */
+  $('.wpcp-shortcode-selectable').click(function (e) {
+    e.preventDefault();
+    wpcp_copyToClipboard($(this));
+    wpcp_SelectText($(this));
+    $(this).focus().select();
+    jQuery(".spwpc-after-copy-text").animate({
+      opacity: 1,
+      bottom: 25
+    }, 300);
+    setTimeout(function () {
+      jQuery(".spwpc-after-copy-text").animate({
+        opacity: 0,
+      }, 200);
+      jQuery(".spwpc-after-copy-text").animate({
+        bottom: 0
+      }, 0);
+    }, 2000);
+  });
+  function wpcp_copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
+  function wpcp_SelectText(element) {
+    var r = document.createRange();
+    var w = element.get(0);
+    r.selectNodeContents(w);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  }
+  $('.post-type-sp_wp_carousel .shortcode.column-shortcode input').click(function (e) {
+    e.preventDefault();
+    /* Get the text field */
+    var copyText = $(this);
+    /* Select the text field */
+    copyText.select();
+    document.execCommand("copy");
+
+    jQuery(".spwpc-after-copy-text").animate({
+      opacity: 1,
+      bottom: 25
+    }, 300);
+    setTimeout(function () {
+      jQuery(".spwpc-after-copy-text").animate({
+        opacity: 0,
+      }, 200);
+      jQuery(".spwpc-after-copy-text").animate({
+        bottom: 0
+      }, 0);
+    }, 2000);
+  });
 })(jQuery, window, document);

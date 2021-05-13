@@ -31,7 +31,7 @@ SP_WPCF::createSection(
 				'type'  => 'heading',
 				'image' => plugin_dir_url( __DIR__ ) . 'img/wpcp-logo.svg',
 				'after' => '<i class="fa fa-life-ring"></i> Support',
-				'link'  => 'https://shapedplugin.com/support-forum/',
+				'link'  => 'https://shapedplugin.com/support/?user=lite',
 				'class' => 'wpcp-admin-header',
 			),
 			array(
@@ -78,7 +78,6 @@ SP_WPCF::createSection(
 				'id'         => 'wpcp_display_posts_from',
 				'type'       => 'selectf',
 				'title'      => __( 'Filter Posts', 'wp-carousel-free' ),
-				'subtitle'   => __( 'Select an option to filter the posts.', 'wp-carousel-free' ),
 				'options'    => array(
 					'latest'        => array(
 						'text' => __( 'Latest', 'wp-carousel-free' ),
@@ -100,8 +99,7 @@ SP_WPCF::createSection(
 			array(
 				'id'         => 'number_of_total_posts',
 				'type'       => 'spinner',
-				'title'      => __( 'Total Posts', 'wp-carousel-free' ),
-				'subtitle'   => __( 'Number of total posts to show. Default value is 10.', 'wp-carousel-free' ),
+				'title'      => __( 'Limit', 'wp-carousel-free' ),
 				'default'    => '10',
 				'min'        => 1,
 				'max'        => 1000,
@@ -112,7 +110,6 @@ SP_WPCF::createSection(
 				'id'         => 'wpcp_display_product_from',
 				'type'       => 'selectf',
 				'title'      => __( 'Filter Products', 'wp-carousel-free' ),
-				'subtitle'   => __( 'Select an option to filter the products.', 'wp-carousel-free' ),
 				'options'    => array(
 					'latest'            => array(
 						'text' => __( 'Latest', 'wp-carousel-free' ),
@@ -134,8 +131,7 @@ SP_WPCF::createSection(
 			array(
 				'id'         => 'wpcp_total_products',
 				'type'       => 'spinner',
-				'title'      => __( 'Total Products', 'wp-carousel-free' ),
-				'subtitle'   => __( 'Number of total products to display. Default value is 10.', 'wp-carousel-free' ),
+				'title'      => __( 'Limit', 'wp-carousel-free' ),
 				'default'    => '10',
 				'min'        => 1,
 				'max'        => 1000,
@@ -185,24 +181,6 @@ SP_WPCF::createSection(
 				'text_width' => 75,
 			),
 			array(
-				'id'       => 'wpcp_carousel_mode',
-				'type'     => 'button_set',
-				'title'    => __( 'Carousel Mode', 'wp-carousel-free' ),
-				'subtitle' => __( 'Set carousel mode. Carousel controls are disabled in the ticker mode.', 'wp-carousel-free' ),
-				'options'  => array(
-					'standard' => __( 'Standard', 'wp-carousel-free' ),
-					'ticker'   => array(
-						'option_name' => __( 'Ticker', 'wp-carousel-free' ),
-						'pro_only'    => true,
-					),
-					'center'   => array(
-						'option_name' => __( 'Center', 'wp-carousel-free' ),
-						'pro_only'    => true,
-					),
-				),
-				'default'  => 'standard',
-			),
-			array(
 				'id'              => 'section_title_margin_bottom',
 				'type'            => 'spacing',
 				'title'           => __( 'Margin Bottom from Section Title', 'wp-carousel-free' ),
@@ -224,6 +202,24 @@ SP_WPCF::createSection(
 				),
 			),
 			array(
+				'id'       => 'wpcp_carousel_mode',
+				'type'     => 'button_set',
+				'title'    => __( 'Carousel Mode', 'wp-carousel-free' ),
+				'subtitle' => __( 'Set carousel mode. Carousel controls are disabled in the ticker mode.', 'wp-carousel-free' ),
+				'options'  => array(
+					'standard' => __( 'Standard', 'wp-carousel-free' ),
+					'ticker'   => array(
+						'option_name' => __( 'Ticker', 'wp-carousel-free' ),
+						'pro_only'    => true,
+					),
+					'center'   => array(
+						'option_name' => __( 'Center', 'wp-carousel-free' ),
+						'pro_only'    => true,
+					),
+				),
+				'default'  => 'standard',
+			),
+			array(
 				'id'       => 'wpcp_number_of_columns',
 				'type'     => 'column',
 				'title'    => __( 'Carousel Column(s)', 'wp-carousel-free' ),
@@ -240,19 +236,19 @@ SP_WPCF::createSection(
 			array(
 				'id'         => 'wpcp_logo_link_show',
 				'type'       => 'button_set',
-				'title'      => __( 'Image Link type', 'wp-carousel-pro' ),
+				'title'      => __( 'Image Link type', 'wp-carousel-free' ),
 				'options'    => array(
 					'link'  => array(
-						'option_name' => __( 'Link', 'wp-carousel-pro' ),
+						'option_name' => __( 'Link', 'wp-carousel-free' ),
 						'pro_only'    => true,
 					),
 					'l_box' => array(
-						'option_name' => __( 'Lightbox', 'wp-carousel-pro' ),
+						'option_name' => __( 'Lightbox', 'wp-carousel-free' ),
 						'pro_only'    => true,
 					),
-					'none'  => __( 'None', 'wp-carousel-pro' ),
+					'none'  => __( 'None', 'wp-carousel-free' ),
 				),
-				'subtitle'   => __( 'Select image link type.', 'wp-carousel-pro' ),
+				'subtitle'   => __( 'Select image link type.', 'wp-carousel-free' ),
 				'default'    => 'none',
 				'dependency' => array( 'wpcp_carousel_type', '==', 'image-carousel', true ),
 			),
@@ -303,6 +299,12 @@ SP_WPCF::createSection(
 				'subtitle' => __( 'Carousel will be hidden until page load completed.', 'wp-carousel-free' ),
 				'default'  => true,
 			),
+			array(
+				'type'    => 'notice',
+				'style'   => 'normal',
+				'class'   => 'pro_notice',
+				'content' => __( 'To unlock the numerous Lightbox and other features, <a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1" target="_blank"><b>Upgrade To Pro!</b></a>', 'wp-carousel-free' ),
+			),
 		), // Fields array end.
 	)
 ); // End of Upload section.
@@ -319,12 +321,12 @@ SP_WPCF::createSection(
 			array(
 				'id'       => 'wpcp_carousel_orientation',
 				'type'     => 'button_set',
-				'title'    => __( 'Carousel Orientation', 'wp-carousel-pro' ),
-				'subtitle' => __( 'Choose a carousel orientation.', 'wp-carousel-pro' ),
+				'title'    => __( 'Carousel Orientation', 'wp-carousel-free' ),
+				'subtitle' => __( 'Choose a carousel orientation.', 'wp-carousel-free' ),
 				'options'  => array(
-					'horizontal' => __( 'Horizontal', 'wp-carousel-pro' ),
+					'horizontal' => __( 'Horizontal', 'wp-carousel-free' ),
 					'vertical'   => array(
-						'option_name' => __( 'Vertical', 'wp-carousel-pro' ),
+						'option_name' => __( 'Vertical', 'wp-carousel-free' ),
 						'pro_only'    => true,
 					),
 				),
@@ -386,6 +388,7 @@ SP_WPCF::createSection(
 				'title'    => __( 'Pause on Hover', 'wp-carousel-free' ),
 				'subtitle' => __( 'On/Off carousel pause on hover.', 'wp-carousel-free' ),
 				'default'  => true,
+				'dependency'      => array('wpcp_carousel_auto_play','==','true'),
 			),
 			array(
 				'id'       => 'carousel_infinite',
@@ -525,32 +528,32 @@ SP_WPCF::createSection(
 				'id'         => 'wpcp_post_detail_position',
 				'class'      => 'wpcp_post_detail_position',
 				'type'       => 'image_select',
-				'title'      => __( 'Content Position', 'wp-carousel-pro' ),
-				'subtitle'   => __( 'Select a position for the title, content, meta etc.', 'wp-carousel-pro' ),
-				'desc'       => __( 'More amazing settings for Content Position are available in Pro. <a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/" target="_blank"><b>Get Pro</b></a>!', 'wp-carousel-pro' ),
+				'title'      => __( 'Content Position', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Select a position for the title, content, meta etc.', 'wp-carousel-free' ),
+				'desc'       => __( 'To unlock the more amazing Content Positions and Settings, <a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1" target="_blank"><b>Upgrade To Pro</b></a>!', 'wp-carousel-free' ),
 				'options'    => array(
 					'bottom'       => array(
 						'image' => plugin_dir_url( __DIR__ ) . 'img/bottom.svg',
-						'text'  => __( 'Bottom', 'wp-carousel-pro' ),
+						'text'  => __( 'Bottom', 'wp-carousel-free' ),
 					),
 					'top'          => array(
-						'image'    => plugin_dir_url( __DIR__ ) . 'img/top.svg',
-						'text'     => __( 'Top', 'wp-carousel-pro' ),
+						'image'    => plugin_dir_url( __DIR__ ) . 'img/Top.svg',
+						'text'     => __( 'Top', 'wp-carousel-free' ),
 						'pro_only' => true,
 					),
 					'on_right'     => array(
-						'image'    => plugin_dir_url( __DIR__ ) . 'img/right.svg',
-						'text'     => __( 'Right', 'wp-carousel-pro' ),
+						'image'    => plugin_dir_url( __DIR__ ) . 'img/Right.svg',
+						'text'     => __( 'Right', 'wp-carousel-free' ),
 						'pro_only' => true,
 					),
 					'on_left'      => array(
-						'image'    => plugin_dir_url( __DIR__ ) . 'img/left.svg',
-						'text'     => __( 'Left', 'wp-carousel-pro' ),
+						'image'    => plugin_dir_url( __DIR__ ) . 'img/Left.svg',
+						'text'     => __( 'Left', 'wp-carousel-free' ),
 						'pro_only' => true,
 					),
 					'with_overlay' => array(
 						'image'    => plugin_dir_url( __DIR__ ) . 'img/overlay.svg',
-						'text'     => __( 'Overlay', 'wp-carousel-pro' ),
+						'text'     => __( 'Overlay', 'wp-carousel-free' ),
 						'pro_only' => true,
 					),
 				),
@@ -579,7 +582,30 @@ SP_WPCF::createSection(
 				'default'    => '#f9f9f9',
 				'dependency' => array( 'wpcp_carousel_type', '==', 'post-carousel' ),
 			),
-
+			array(
+				'id'         => 'wpcp_image_caption',
+				'type'       => 'switcher',
+				'class'      => 'only_pro_switcher',
+				'title'      => __( 'Caption', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Show/Hide image caption.', 'wp-carousel-free' ),
+				'text_on'    => __( 'Show', 'wp-carousel-free' ),
+				'text_off'   => __( 'Hide', 'wp-carousel-free' ),
+				'text_width' => 77,
+				'default'    => false,
+				'dependency' => array( 'wpcp_carousel_type', '==', 'image-carousel' ),
+			),
+			array(
+				'id'         => 'wpcp_image_desc',
+				'type'       => 'switcher',
+				'class'      => 'only_pro_switcher',
+				'title'      => __( 'Description', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Show/Hide description.', 'wp-carousel-free' ),
+				'text_on'    => __( 'Show', 'wp-carousel-free' ),
+				'text_off'   => __( 'Hide', 'wp-carousel-free' ),
+				'text_width' => 77,
+				'default'    => false,
+				'dependency' => array( 'wpcp_carousel_type', 'any', 'image-carousel,video-carousel' ),
+			),
 			// Post Settings.
 			array(
 				'id'         => 'wpcp_post_title',
@@ -731,6 +757,21 @@ SP_WPCF::createSection(
 				'dependency' => array( 'wpcp_carousel_type|show_image', 'any|==', 'image-carousel,post-carousel,product-carousel|true' ),
 			),
 			array(
+				'id'       => 'wpcp_image_gray_scale',
+				'type'     => 'select',
+				'class'    => 'wpcp_image_gray_scale_pro',
+				'title'    => __( 'Image Mode', 'wp-carousel-free' ),
+				'subtitle' => __( 'Set a mode for the image.', 'wp-carousel-free' ),
+				'options'  => array(
+					''  => __( 'Normal', 'wp-carousel-free' ),
+					'1' => __( 'Grayscale and normal on hover (Pro)', 'wp-carousel-free' ),
+					'2' => __( 'Grayscale on hover (Pro)', 'wp-carousel-free' ),
+					'3' => __( 'Always grayscale (Pro)', 'wp-carousel-free' ),
+				),
+				'default'  => '',
+				'class'    => 'chosen',
+			),
+			array(
 				'id'         => 'wpcp_product_image_border',
 				'type'       => 'border',
 				'title'      => __( 'Image Border', 'wp-carousel-freee' ),
@@ -769,7 +810,7 @@ SP_WPCF::createSection(
 			array(
 				'type'    => 'notice',
 				'style'   => 'normal',
-				'content' => __( 'The Following Typography (840+ Google Fonts) options are available in the <a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/" target="_blank">Pro Version</a> only.', 'wp-carousel-free' ),
+				'content' => __( 'To unlock These Typography (940+ Google Fonts) options, <a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1" target="_blank"><b>Upgrade To Pro!</b></a>', 'wp-carousel-free' ),
 			),
 			array(
 				'id'       => 'section_title_font_load',

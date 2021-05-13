@@ -7,17 +7,17 @@
  * @package WP_Carousel_Free
  *
  * Plugin Name:       WordPress Carousel
- * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/
+ * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1
  * Description:       The Most Powerful and User-friendly WordPress Carousel Plugin. Create beautiful carousels in minutes using Images, Posts, WooCommerce Products etc.
- * Version:           2.1.16
+ * Version:           2.1.19
  * Author:            ShapedPlugin
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
- * WC requires at least: 3.0
- * WC tested up to: 4.8.0
+ * WC requires at least: 4.0
+ * WC tested up to: 5.2.2
  */
 
 // If this file is called directly, abort.
@@ -77,7 +77,7 @@ class SP_WP_Carousel_Free {
 	 * @since 2.0.0
 	 * @var   string
 	 */
-	private $min_php = '5.4.0';
+	private $min_php = '5.6';
 
 	/**
 	 * Plugin file.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.1.16';
+		$this->version     = '2.1.19';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -332,8 +332,8 @@ function sp_wpcf() {
 	$plugin->loader->run();
 }
 
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-if( ! ( is_plugin_active( 'wp-carousel-pro/wp-carousel-pro.php' ) || is_plugin_active_for_network( 'wp-carousel-pro/wp-carousel-pro.php' ) ) ) {
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+if ( ! ( is_plugin_active( 'wp-carousel-pro/wp-carousel-pro.php' ) || is_plugin_active_for_network( 'wp-carousel-pro/wp-carousel-pro.php' ) ) ) {
 	// Launch it out .
 	sp_wpcf();
 }

@@ -141,7 +141,7 @@ class WP_Carousel_Free_Admin {
 		$carousels_types = isset( $upload_data['wpcp_carousel_type'] ) ? $upload_data['wpcp_carousel_type'] : '';
 		switch ( $column ) {
 			case 'shortcode':
-				$column_field = '<input style="width: 270px; padding: 6px;" type="text" onClick="this.select();" readonly="readonly" value="[sp_wpcarousel id=&quot;' . $post_id . '&quot;]"/>';
+				$column_field = '<input style="width: 270px; padding: 6px;cursor:pointer;" type="text" onClick="this.select();" readonly="readonly" value="[sp_wpcarousel id=&quot;' . $post_id . '&quot;]"/><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>';
 				echo $column_field;
 				break;
 			case 'carousel_type':
@@ -167,7 +167,7 @@ class WP_Carousel_Free_Admin {
 
 			array_unshift( $links, $ui_links );
 
-			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Premium!</a>', 'https://shapedplugin.com/plugin/wordpress-carousel-pro' );
+			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Premium!</a>', 'https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1' );
 		}
 
 		return $links;
@@ -192,10 +192,10 @@ class WP_Carousel_Free_Admin {
 	 */
 	public function plugin_row_meta( $plugin_meta, $plugin_file ) {
 		if ( WPCAROUSELF_BASENAME === $plugin_file ) {
-			$row_meta = [
+			$row_meta = array(
 				'docs' => '<a href="https://wordpresscarousel.com" aria-label="' . esc_attr( __( 'Live Demo', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Live Demo', 'wp-carousel-free' ) . '</a>',
-				'ideo' => '<a href="https://shapedplugin.com/docs/docs/wordpress-carousel" aria-label="' . esc_attr( __( 'View WP Carousel Video Tutorials', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Docs & Video Tutorials', 'wp-carousel-free' ) . '</a>',
-			];
+				'ideo' => '<a href="https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/" aria-label="' . esc_attr( __( 'View WP Carousel Video Tutorials', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Docs & Video Tutorials', 'wp-carousel-free' ) . '</a>',
+			);
 
 			$plugin_meta = array_merge( $plugin_meta, $row_meta );
 		}

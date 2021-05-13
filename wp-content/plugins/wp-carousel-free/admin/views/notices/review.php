@@ -47,7 +47,7 @@ class WP_Carousel_Free_Review {
 		?>
 		<div id="sp-wpcfree-review-notice" class="sp-wpcfree-review-notice">
 			<div class="sp-wpcfree-plugin-icon">
-				<img src="<?php echo WPCAROUSELF_URL . 'admin/img/wpcp-icon-256.png'; ?>" alt="WP Carousel">
+				<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/wp-carousel-pro.svg'; ?>" alt="WP Carousel">
 			</div>
 			<div class="sp-wpcfree-notice-text">
 				<h3>Enjoying <strong>WP Carousel</strong>?</h3>

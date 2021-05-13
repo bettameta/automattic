@@ -19,7 +19,7 @@ if ( ! class_exists( 'SP_WPCF_Field_shortcode' ) ) {
 			// Get the Post ID.
 			$post_id = get_the_ID();
 
-			echo ( ! empty( $post_id ) ) ? '<div class="wpcp-scode-wrap"><span class="wpcp-sc-title">Shortcode:</span><span class="wpcp-shortcode-selectable">[sp_wpcarousel id="' . $post_id . '"]</span></div><div class="wpcp-scode-wrap"><span class="wpcp-sc-title">Template Include:</span><span class="wpcp-shortcode-selectable">&lt;?php echo do_shortcode(\'[sp_wpcarousel id="' . $post_id . '"]\'); ?&gt;</span></div>' : '';
+			echo ( ! empty( $post_id ) ) ? '<div class="wpcp-scode-wrap"><span class="wpcp-sc-title">Shortcode:</span><span class="wpcp-shortcode-selectable">[sp_wpcarousel id="' . $post_id . '"]</span></div><div class="wpcp-scode-wrap"><span class="wpcp-sc-title">Template Include:</span><span class="wpcp-shortcode-selectable">&lt;?php echo do_shortcode(\'[sp_wpcarousel id="' . $post_id . '"]\'); ?&gt;</span></div><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>' : '';
 		}
 
 	}

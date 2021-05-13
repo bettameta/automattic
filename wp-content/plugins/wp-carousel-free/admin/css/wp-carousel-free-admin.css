@@ -329,3 +329,32 @@
         background-position-x: center;
     }
 }
+
+ /* Shortcode */
+ .spwpc-copy-btn {
+    width: 16px;
+    margin-left: 13px;
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+}
+.spwpc-after-copy-text {
+    bottom: 0;
+    opacity: 0;
+    z-index: 9999999;
+    position: fixed;
+    width: 230px;
+    left: 180px;
+    text-align: center;
+    padding: 15px 15px;
+    line-height: 15px;
+    color: #fff;
+    border-radius: 3px;
+    background: #32373c;
+    border: 1px solid #32373c;
+}
+.spwpc-after-copy-text .fa-check-circle {
+    font-size: 14px;
+    margin-right: 2px;
+    color: #5db62e
+}
