@@ -24,7 +24,8 @@ if ( $section_title ) {
 if ( $preloader ) {
 	require WPCAROUSELF_PATH . '/public/templates/preloader.php';
 }
-echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' dir="ltr">';
+$the_rtl = ( 'ltr' === $carousel_direction ) ? ' dir="rtl"' : ' dir="ltr"';
+echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' ' . $the_rtl . '>';
 $attachments = explode( ',', $gallery_ids );
 ( ( 'rand' == $image_orderby ) ? shuffle( $attachments ) : '' );
 if ( is_array( $attachments ) || is_object( $attachments ) ) :

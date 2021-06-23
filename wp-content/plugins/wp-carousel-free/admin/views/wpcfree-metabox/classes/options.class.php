@@ -519,11 +519,12 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 		public function add_options_html() {
 
 			$has_nav       = ( count( $this->pre_tabs ) > 1 ) ? true : false;
+			$show_buttons  = isset( $this->args['show_buttons'] ) ? $this->args['show_buttons'] : true;
 			$show_all      = ( ! $has_nav ) ? ' spf-show-all' : '';
 			$ajax_class    = ( $this->args['ajax_save'] ) ? ' spf-save-ajax' : '';
 			$sticky_class  = ( $this->args['sticky_header'] ) ? ' spf-sticky-header' : '';
 			$wrapper_class = ( $this->args['framework_class'] ) ? ' ' . $this->args['framework_class'] : '';
-			echo '<div class="wrap"><h1>' . $this->args['menu_title'] . '</h1></div>';
+			// echo '<div class="wrap"><h1>' . $this->args['menu_title'] . '</h1></div>';
 			echo '<div class="spf spf-theme-' . $this->args['theme'] . ' spf-options' . $wrapper_class . '" data-slug="' . $this->args['menu_slug'] . '" data-unique="' . $this->unique . '">';
 
 			$notice_class = ( ! empty( $this->notice ) ) ? ' spf-form-show' : '';
@@ -546,13 +547,17 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			echo '<form method="post" action="" enctype="multipart/form-data" id="spf-form">';
 
 			echo '<input type="hidden" class="spf-section-id" name="spf_transient[section]" value="1">';
-			wp_nonce_field( 'spf_options_nonce', 'spf_options_nonce' );
+			wp_nonce_field( 'spf_options_nonce', 'spf_options_nonce');
 
 			echo '<div class="spf-header' . esc_attr( $sticky_class ) . '">';
 			echo '<div class="spf-header-inner">';
 
 			echo '<div class="spf-header-left">';
-			echo '<h1><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 709.6 557.7" style="enable-background:new 0 0 709.6 557.7;" xml:space="preserve"> <style type="text/css"> .st0{fill:#1DAEB9;}</style><g><g><polygon class="st0" points="514,317.1 437,221.5 483.7,183.9 560.7,279.5"/><polygon class="st0" points="484,375.3 437.3,337.7 514.2,242.1 560.9,279.7"/></g><g><polygon class="st0" points="196.4,317.1 149.7,279.5 226.7,183.9 273.4,221.5"/><polygon class="st0" points="226.4,375.3 149.5,279.7 196.2,242.1 273.1,337.7"/></g><g><path class="st0" d="M699,547.2H11.4V12H699V547.2z M89.1,469.5h532.2V89.7H89.1V469.5z"/></g></g></svg>' . $this->args['framework_title'] . '</h1>';
+			if ( $show_buttons ) {
+				echo '<h1><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 709.6 557.7" style="enable-background:new 0 0 709.6 557.7;" xml:space="preserve"> <style type="text/css"> .st0{fill:#1DAEB9;}</style><g><g><polygon class="st0" points="514,317.1 437,221.5 483.7,183.9 560.7,279.5"/><polygon class="st0" points="484,375.3 437.3,337.7 514.2,242.1 560.9,279.7"/></g><g><polygon class="st0" points="196.4,317.1 149.7,279.5 226.7,183.9 273.4,221.5"/><polygon class="st0" points="226.4,375.3 149.5,279.7 196.2,242.1 273.1,337.7"/></g><g><path class="st0" d="M699,547.2H11.4V12H699V547.2z M89.1,469.5h532.2V89.7H89.1V469.5z"/></g></g></svg>' . $this->args['framework_title'] . '</h1>';
+			} else {
+				echo '<h1 class="export-import"><img src="' . WPCAROUSELF_URL . 'admin/img/import-export.svg">' . $this->args['framework_title'] . '</h1>';
+			}
 			echo '</div>';
 
 			echo '<div class="spf-header-right">';
@@ -560,13 +565,13 @@ if ( ! class_exists( 'SP_WPCF_Options' ) ) {
 			echo ( $has_nav && $this->args['show_all_options'] ) ? '<div class="spf-expand-all" title="' . esc_html__( 'show all options', 'wp-carousel-free' ) . '"><i class="fa fa-outdent"></i></div>' : '';
 
 			echo ( $this->args['show_search'] ) ? '<div class="spf-search"><input type="text" placeholder="' . esc_html__( 'Search option(s)', 'wp-carousel-free' ) . '" /></div>' : '';
-
-			echo '<div class="spf-buttons">';
-			echo '<input type="submit" name="' . $this->unique . '[_nonce][save]" class="button button-primary spf-save' . $ajax_class . '" value="' . esc_html__( 'Save', 'wp-carousel-free' ) . '" data-save="' . esc_html__( 'Saving...', 'wp-carousel-free' ) . '">';
-			echo ( $this->args['show_reset_section'] ) ? '<input type="submit" name="spf_transient[reset_section]" class="button button-secondary spf-reset-section spf-confirm" value="' . esc_html__( 'Reset Section', 'wp-carousel-free' ) . '" data-confirm="' . esc_html__( 'Are you sure to reset this section options?', 'wp-carousel-free' ) . '">' : '';
-			echo ( $this->args['show_reset_all'] ) ? '<input type="submit" name="spf_transient[reset]" class="button button-secondary spf-reset-all spf-confirm" value="' . esc_html__( 'Reset All', 'wp-carousel-free' ) . '" data-confirm="' . esc_html__( 'Are you sure to reset all options?', 'wp-carousel-free' ) . '">' : '';
-			echo '</div>';
-
+			if ( $show_buttons ) {
+				echo '<div class="spf-buttons">';
+				echo '<input type="submit" name="' . $this->unique . '[_nonce][save]" class="button button-primary spf-save' . $ajax_class . '" value="' . esc_html__( 'Save', 'wp-carousel-free' ) . '" data-save="' . esc_html__( 'Saving...', 'wp-carousel-free' ) . '">';
+				echo ( $this->args['show_reset_section'] ) ? '<input type="submit" name="spf_transient[reset_section]" class="button button-secondary spf-reset-section spf-confirm" value="' . esc_html__( 'Reset Section', 'wp-carousel-free' ) . '" data-confirm="' . esc_html__( 'Are you sure to reset this section options?', 'wp-carousel-free' ) . '">' : '';
+				echo ( $this->args['show_reset_all'] ) ? '<input type="submit" name="spf_transient[reset]" class="button button-secondary spf-reset-all spf-confirm" value="' . esc_html__( 'Reset All', 'wp-carousel-free' ) . '" data-confirm="' . esc_html__( 'Are you sure to reset all options?', 'wp-carousel-free' ) . '">' : '';
+				echo '</div>';
+			}
 			echo '</div>';
 
 			echo '<div class="clear"></div>';

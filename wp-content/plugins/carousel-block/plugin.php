@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Carousel Slider Block
  * Plugin URI: https://wordpress.org/plugins/carousel-block
- * Description: A responsive and customizable carousel block for Gutenberg. 
+ * Description: A responsive and customizable carousel block for Gutenberg.
  * Author URI: http://virgiliudiaconu.com/
- * Version: 1.0.1
+ * Version: 1.0.2
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *

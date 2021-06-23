@@ -3,7 +3,7 @@ Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Donate link: http://shapedplugin.com/donate
 Tags: wordpress carousel, best carousel plugin, image carousel, image slider, post carousel, custom post carousel, custom taxonomy carousel, woocommerce product carousel, content carousel, video carousel, video slider, video lightbox, youtube carousel, video gallery, carousel, slider, responsive slider, responsive carousel, carousel slider, ticker carousel, center mode carousel, slide anything, image gallery, image lightbox, wordpress image gallery, photo gallery, gallery slider, wordpress gallery plugin, gallery, post slider, vimeo slider, self hosted video carousel, content slider, wordpress slider, featured content slider, html slider, horizontal carousel slider, posts content slider, product carousel, woocommerce slider, woocommerce product slider
 Requires at least: 4.5
-Tested up to: 5.7.1
+Tested up to: 5.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,14 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.2.0 – Jun 22, 2021 =
+* New: Export and Import option.
+* Tested: WooCommerce 5.4.1 compatibility.
+
+= 2.1.20 – Jun 05, 2021 =
+* New: Carousel direction(Right to Left and Left to Right) option.
+* Tested: WooCommerce 5.3.0 compatibility.
 
 = 2.1.19 – Apr 16, 2021 =
 * Improved: AutoPlay dependency with Pause on Hover.

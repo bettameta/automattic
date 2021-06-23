@@ -398,6 +398,19 @@ SP_WPCF::createSection(
 				'default'  => true,
 			),
 			array(
+				'id'         => 'wpcp_carousel_direction',
+				'type'       => 'button_set',
+				'title'      => __( 'Carousel Direction', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Set carousel direction as you need.', 'wp-carousel-free' ),
+				'options'    => array(
+					'rtl' => __( 'Right to Left', 'wp-carousel-free' ),
+					'ltr' => __( 'Left to Right', 'wp-carousel-free' ),
+				),
+				'radio'      => true,
+				'default'    => 'rtl',
+				'dependency' => array( 'wpcp_carousel_orientation', '==', 'horizontal', true ),
+			),
+			array(
 				'type'    => 'subheading',
 				'content' => __( 'Navigation', 'wp-carousel-free' ),
 			),

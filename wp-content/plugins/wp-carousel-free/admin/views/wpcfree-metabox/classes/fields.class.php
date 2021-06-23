@@ -109,6 +109,20 @@ if ( ! class_exists( 'SP_WPCF_Fields' ) ) {
 					}
 
 					break;
+				case 'sp_wp_carousel':
+					$lcp_get_specific = array(
+						'post_type' => 'sp_wp_carousel',
+					);
+					$query_args       = array_merge( $query_args, $lcp_get_specific );
+					$all_posts        = get_posts( $query_args );
+
+					if ( ! is_wp_error( $all_posts ) && ! empty( $all_posts ) ) {
+						foreach ( $all_posts as $post_obj ) {
+							$options[ $post_obj->ID ] = isset( $post_obj->post_title ) && ! empty( $post_obj->post_title ) ? $post_obj->post_title : 'Untitled';
+						}
+					}
+					wp_reset_postdata();
+					break;
 
 				case 'taxonomies':
 				case 'taxonomy':

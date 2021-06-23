@@ -80,8 +80,8 @@ if ( ! function_exists( 'spf_get_vars' ) ) {
  * @since 1.0.0
  * @version 1.0.0
  */
-if ( ! function_exists( 'spf_microtime' ) ) {
-	function spf_timeout( $timenow, $starttime, $timeout = 30 ) {
+if ( ! function_exists( 'spwf_timeout' ) ) {
+	function spwf_timeout( $timenow, $starttime, $timeout = 30 ) {
 
 		return ( ( $timenow - $starttime ) < $timeout ) ? true : false;
 

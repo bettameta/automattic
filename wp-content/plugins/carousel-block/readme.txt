@@ -3,7 +3,7 @@ Contributors: virgildia
 Donate link: http://virgiliudiaconu.com/
 Tags: gutenberg, carousel, slide, slideshow, block
 Requires at least: 4.9.5
-Tested up to: 5.0.3
+Tested up to: 5.7.2
 Requires PHP: 5.6+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -70,4 +70,7 @@ First release of the plugin.
 
 = 1.0.1 =
 Fixed lodash issue.
+
+= 1.0.2 =
+Updates for latest WP Gutenberg version. Fixed editor CSS. 
 

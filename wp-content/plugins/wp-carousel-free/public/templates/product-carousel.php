@@ -46,7 +46,8 @@ $show_product_cart   = $shortcode_data['wpcp_product_cart'];
 	if ( $preloader ) {
 		require WPCAROUSELF_PATH . '/public/templates/preloader.php';
 	}
-	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' dir="ltr">';
+	$the_rtl = ( 'ltr' === $carousel_direction ) ? ' dir="rtl"' : ' dir="ltr"';
+	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' ' . $the_rtl . '">';
 	if ( $product_query->have_posts() ) {
 		while ( $product_query->have_posts() ) :
 			$product_query->the_post();

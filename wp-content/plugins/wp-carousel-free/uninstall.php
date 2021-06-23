@@ -42,7 +42,9 @@ function sp_wpcf_delete_plugin_data() {
 
 	// Load WPCP file.
 	require plugin_dir_path( __FILE__ ) . '/wp-carousel-free.php';
+if ( function_exists( 'wpcf_get_option' ) ) {
 	$wpcp_plugin_data = wpcf_get_option( 'wpcf_delete_all_data', false );
+}
 
 if ( $wpcp_plugin_data ) {
 	sp_wpcf_delete_plugin_data();

@@ -33,7 +33,8 @@ $show_post_author  = $shortcode_data['wpcp_post_author_show'];
 	if ( $preloader ) {
 		require WPCAROUSELF_PATH . '/public/templates/preloader.php';
 	}
-	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' dir="ltr">';
+	$the_rtl = ( 'ltr' === $carousel_direction ) ? ' dir="rtl"' : ' dir="ltr"';
+	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' ' . $the_rtl . '>';
 	$post_query = new WP_Query( $args );
 	if ( $post_query->have_posts() ) {
 		while ( $post_query->have_posts() ) :
@@ -53,7 +54,7 @@ $show_post_author  = $shortcode_data['wpcp_post_author_show'];
 			} // End of Has post thumbnail.
 
 			// Post Title.
-			$wpcp_title           = sprintf( '<h2 class="wpcp-post-title"><a href="%1$s">%2$s</a></h2>', get_the_permalink(), get_the_title() );
+			$wpcp_title      = sprintf( '<h2 class="wpcp-post-title"><a href="%1$s">%2$s</a></h2>', get_the_permalink(), get_the_title() );
 			$wpcp_post_title = ( $show_img_title && ! empty( get_the_title() ) ) ? $wpcp_title : '';
 
 			// The Post Author.

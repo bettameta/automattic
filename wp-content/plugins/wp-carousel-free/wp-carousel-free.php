@@ -9,7 +9,7 @@
  * Plugin Name:       WordPress Carousel
  * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1
  * Description:       The Most Powerful and User-friendly WordPress Carousel Plugin. Create beautiful carousels in minutes using Images, Posts, WooCommerce Products etc.
- * Version:           2.1.19
+ * Version:           2.2.0
  * Author:            ShapedPlugin
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -17,7 +17,7 @@
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 4.0
- * WC tested up to: 5.2.2
+ * WC tested up to: 5.4.1
  */
 
 // If this file is called directly, abort.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.1.19';
+		$this->version     = '2.2.0';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -170,7 +170,9 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_PATH . '/admin/views/notices/class-wp-carousel-free-promotion.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/option-config.php';
+		include_once WPCAROUSELF_PATH . '/admin/views/tools-config.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-shortcode.php';
+		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-import-export.php';
 		include_once WPCAROUSELF_PATH . '/public/shortcode-deprecated.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
 		include_once WPCAROUSELF_PATH . '/public/class-wp-carousel-free-public.php';
@@ -248,6 +250,12 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'sp_wpcp_review_text', 10, 2 );
 		$this->loader->add_action( 'activated_plugin', $plugin_admin, 'sp_wpcf_redirect_after_activation', 10, 2 );
+
+		// Export and Import ajax call.
+		$import_export = new Wp_Carousel_Free_Import_Export( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'wp_ajax_wpcp_export_shortcodes', $import_export, 'export_shortcodes' );
+		$this->loader->add_action( 'wp_ajax_wpcp_import_shortcodes', $import_export, 'import_shortcodes' );
 
 		// Help Page.
 		$help_page = new WP_Carousel_Free_Help( $this->get_plugin_name(), $this->get_version() );

@@ -13,79 +13,101 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( !function_exists( 'carousel_block_block_assets' ) ) { 
-	/**
-	 * Enqueue Gutenberg block assets for both frontend + backend.
-	 *
-	 * @uses {wp-editor} for WP editor styles.
-	 * @since 1.0.0
-	 */
-	function carousel_block_block_assets() { // phpcs:ignore
-		// Styles
+/**
+ * Enqueue Gutenberg block assets for both frontend + backend.
+ *
+ * Assets enqueued:
+ * 1. blocks.style.build.css - Frontend + Backend.
+ * 2. blocks.build.js - Backend.
+ * 3. blocks.editor.build.css - Backend.
+ *
+ * @uses {wp-blocks} for block type registration & related functions.
+ * @uses {wp-element} for WP Element abstraction — structure of blocks.
+ * @uses {wp-i18n} to internationalize the block's text.
+ * @uses {wp-editor} for WP editor styles.
+ * @since 1.0.0
+ */
+function carousel_block_cgb_block_assets() { // phpcs:ignore
+
+	if ( ! is_admin() ) { // load only on frontend
 		wp_enqueue_style(
-			'carousel_block-cgb-style', 
-			plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), 
-			array( 'wp-editor' )
+			'slick-styles',
+			plugins_url( 'dist/assets/vendor/slick/slick.min.css', dirname( __FILE__ ) ),
+			array(),
+			filemtime( plugin_dir_path( __DIR__ ) . 'dist/assets/vendor/slick/slick.min.css' ),
+			false
+		);
+		wp_enqueue_script(
+			'carousel-block-slick-js',
+			plugins_url( 'dist/assets/vendor/slick/slick.min.js', dirname( __FILE__ ) ),
+			array( 'jquery' ),
+			true
+		);
+		wp_enqueue_script(
+			'carousel-block-script-js',
+			plugins_url( 'dist/assets/js/script.js', dirname( __FILE__ ) ),
+			array( 'jquery' ),
+			true
 		);
 	}
 	
-	// Hook: Frontend assets.
-	add_action( 'enqueue_block_assets', 'carousel_block_block_assets' );
-}
+	// Register block styles for both frontend + backend.
+	wp_register_style(
+		'carousel_block-cgb-style-css', // Handle.
+		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
+		is_admin() ? array( 'wp-editor' ) : null, // Dependency to include the CSS after it.
+		null // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
+	);
 
-if ( !function_exists( 'carousel_block_editor_assets' ) ) { 
+	// Register block editor script for backend.
+	wp_register_script(
+		'carousel_block-cgb-block-js', // Handle.
+		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
+		null, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
+		true // Enqueue the script in the footer.
+	);
+
+	// Register block editor styles for backend.
+	wp_register_style(
+		'carousel_block-cgb-block-editor-css', // Handle.
+		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
+		array( 'wp-edit-blocks' ), // Dependency to include the CSS after it.
+		null // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
+	);
+
+	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `cgbGlobal` object.
+	wp_localize_script(
+		'carousel_block-cgb-block-js',
+		'cgbGlobal', // Array containing dynamic data for a JS Global.
+		[
+			'pluginDirPath' => plugin_dir_path( __DIR__ ),
+			'pluginDirUrl'  => plugin_dir_url( __DIR__ ),
+			// Add more data here that you want to access from `cgbGlobal` object.
+		]
+	);
+
 	/**
-	 * Enqueue Gutenberg block assets for backend editor.
+	 * Register Gutenberg block on server-side.
 	 *
-	 * @uses {wp-blocks} for block type registration & related functions.
-	 * @uses {wp-element} for WP Element abstraction — structure of blocks.
-	 * @uses {wp-i18n} to internationalize the block's text.
-	 * @uses {wp-editor} for WP editor styles.
-	 * @since 1.0.0
+	 * Register the block on server-side to ensure that the block
+	 * scripts and styles for both frontend and backend are
+	 * enqueued when the editor loads.
+	 *
+	 * @link https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type#enqueuing-block-scripts
+	 * @since 1.16.0
 	 */
-	function carousel_block_editor_assets() { // phpcs:ignore
-		// Scripts
-		wp_enqueue_script(
-			'carousel_block-cgb-block-js', 
-			plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), 
-			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), 
-			true 
-		);
-	
-		// Styles
-		wp_enqueue_style(
-			'carousel_block-cgb-block-editor', 
-			plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), 
-			array( 'wp-edit-blocks' ) 
-		);
-	}
-
-	add_action( 'enqueue_block_editor_assets', 'carousel_block_editor_assets' );
+	register_block_type(
+		'cgb/block-carousel-block', array(
+			// Enqueue blocks.style.build.css on both frontend & backend.
+			'style'         => 'carousel_block-cgb-style-css',
+			// Enqueue blocks.build.js in the editor only.
+			'editor_script' => 'carousel_block-cgb-block-js',
+			// Enqueue blocks.editor.build.css in the editor only.
+			'editor_style'  => 'carousel_block-cgb-block-editor-css',
+		)
+	);
 }
 
-if ( !function_exists( 'carousel_block_assets' ) ) { 
-	/**
-	 * Enqueue assets for frontend
-	 *
-	 * @since 1.0.0
-	 */
-	function carousel_block_assets() {
-		// Scripts
-		wp_enqueue_script(
-			'cb-slick-js',
-			plugins_url( '/dist/assets/slick/slick.min.js', dirname( __FILE__ ) ),
-			array( 'jquery' )
-		);
-		wp_enqueue_script(
-			'cb-js', 
-			plugins_url( '/dist/assets/carousel-block.js', dirname( __FILE__ ) ), 
-			array( 'jquery' )
-		);
-		// Styles
-		wp_enqueue_style(
-			'slick-theme', 
-			plugins_url( 'dist/assets/slick/slick-theme.min.css', dirname( __FILE__ ) ) 
-		);
-	}
-	add_action( 'wp_enqueue_scripts', 'carousel_block_assets' );
-}
+// Hook: Block assets.
+add_action( 'init', 'carousel_block_cgb_block_assets' );

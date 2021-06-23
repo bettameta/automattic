@@ -146,7 +146,8 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 		// Carousel Configurations.
 		wp_enqueue_script( 'wpcf-slick' );
 		wp_enqueue_script( 'wpcf-slick-config' );
-		$wpcp_slick_options = 'data-slick=\'{ "accessibility": true, "arrows":' . $nav . ', "autoplay":' . $auto_play . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $bullets . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ', "slidesToShow":' . $items . ', "responsive":[ { "breakpoint":1200, "settings": { "slidesToShow":' . $items_desktop . ' } }, { "breakpoint":980, "settings":{ "slidesToShow":' . $items_desktop_small . ' } }, { "breakpoint":736, "settings": { "slidesToShow":' . $items_tablet . ' } }, {"breakpoint":480, "settings":{ "slidesToShow":' . $items_mobile . ', "arrows":' . $nav_mobile . ', "dots":' . $bullets_mobile . ' } } ], "rows":1, "swipe":' . $swipe . ', "draggable":' . $draggable . ' }\' ';
+		$rtl     = ( 'ltr' === $carousel_direction ) ? 'true' : 'false';
+		$wpcp_slick_options = 'data-slick=\'{ "accessibility": true, "arrows":' . $nav . ', "autoplay":' . $auto_play . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $bullets . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ', "slidesToShow":' . $items . ', "responsive":[ { "breakpoint":1200, "settings": { "slidesToShow":' . $items_desktop . ' } }, { "breakpoint":980, "settings":{ "slidesToShow":' . $items_desktop_small . ' } }, { "breakpoint":736, "settings": { "slidesToShow":' . $items_tablet . ' } }, {"breakpoint":480, "settings":{ "slidesToShow":' . $items_mobile . ', "arrows":' . $nav_mobile . ',  "dots":' . $bullets_mobile . ' } } ], "rows":1, "rtl":' . $rtl . ', "swipe":' . $swipe . ', "draggable":' . $draggable . ' }\' ';
 
 		$gallery_div = "	
 		<div id='wordpress-carousel-free-$id' class='wpcp-carousel-section wpcp-standard nav-vertical-center' $wpcp_slick_options>";
