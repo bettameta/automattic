@@ -1,11 +1,11 @@
 === Layout Grid Block ===
 Contributors: automattic, jasmussen, johnny5, mkaz
 Stable tag: trunk
-Tested up to: 5.7
-Requires at least: 5.6
+Tested up to: 5.9
+Requires at least: 5.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Tags: blocks, layout, grid, design
+Tags: blocks, layout, grid, design, block
 
 A Gutenberg container block to let you align items consistently across a global grid.
 
@@ -23,6 +23,27 @@ You can follow development, file an issue, suggest features, and view the source
 2. Three column grid with resize handles.
 
 == Changelog ==
+
+= 1.8.2 - 16th June 2022 =
+* Update device preview handling to be more consistent
+
+= 1.8.1 - 18th March 2022 =
+* Change layout grid to not be fullwide by default
+
+= 1.8 - 25th January 2022 =
+* General updates for recent Gutenbergs
+
+= 1.7.2 - 19th November 2021 =
+* Prefer site editor viewport settings when changing the preview device type
+
+= 1.7.1 - 11th November 2021 =
+* Show block in excerpts
+
+= 1.7 - 19th July 2021 =
+* Add initial support for WordPress mobile app
+* Fix incorrect behaviour of drag handles in Safari
+* Fix sticky block styles
+* Fix image right alignment
 
 = 1.6 - 26th March 2021 =
 * Remove deprecated Gutenberg functions
