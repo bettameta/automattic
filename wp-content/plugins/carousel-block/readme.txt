@@ -1,9 +1,9 @@
-=== Carousel Slider Block ===
+=== Carousel Slider Block for Gutenberg ===
 Contributors: virgildia
 Donate link: http://virgiliudiaconu.com/
-Tags: gutenberg, carousel, slide, slideshow, block
-Requires at least: 4.9.5
-Tested up to: 5.7.2
+Tags: gutenberg, carousel, slide, slideshow, slider, block
+Requires at least: 5.8
+Tested up to: 6.0
 Requires PHP: 5.6+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@ A responsive carousel slider for the Gutenberg editor.
 
 = Features =
 
- - Add as many slides as you want
+ - Add unlimited slides
  - Add any blocks to the slides
  - Preview the carousel in the editor
  - Responsive and touch enabled
@@ -28,39 +28,56 @@ A responsive carousel slider for the Gutenberg editor.
  - Slide padding
  - Prev/next arrows
  - Dots navigation
- - Responsive settings: slides to show at given screen size
+ - Infinite loop sliding
+ - Autoplay
+ - Responsive settings: slides to show and scroll at given screen size
+ - RTL
 
 == Requirements ==
 
-PHP 5.6+ is recommended, WordPress 5.0+, with Gutenberg active.
+PHP 5.6+ is recommended, WordPress 5.8+, with Gutenberg active.
 
 == Documentation ==
 
-Select the Carousel Block from "Common Blocks". Add any blocks to the slides. Use the + and - buttons in the toolbar to add or remove slides. Preview slides in the editor using the horizontal scrollbar.
+Select the Carousel Slider block from the Design category. Click the + button located at the end of the carousel to add slides. Add any block within the slides. Use the horizontal scrollbar to preview the slides in the editor.
 
-Click the Carousel Block (the container nesting all the slides) to show the block settings.
+You can reorder the slides by using the left and right arrow buttons in the toolbar.
+
+To remove a slide, select the slide and click the three dots right above it. Click the option to remove that slide.
+
+Click the Carousel Block (the block nesting all the slides) to show the carousel settings.
+
+== Installation ==
+
+1. From your WordPress dashboard go to **Plugins > Add New**.
+1. Search for **Carousel Slider Block** in the **Search Plugins** box.
+1. Click **Install Now** to install the **Carousel Slider Block** Plugin.
+1. Click **Activate** to activate the plugin.
+1. **Carousel Slider Block** will be added to the **Design** block group in the editor. 
+
+If you still need help. visit [WordPress codex](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins)
 
 == Screenshots ==
 
-1. Carousel
-2. Carousel Slides 
-2. Carousel Settings
+1. Carousel slider
+2. Add any blocks to the carousel slides
+3. Carousel settings
 
 == Frequently Asked Questions ==
-
-= Installation =
-
-Go to your WordPress Admin -> Plugins -> Add New. Search for Carousel Block. Install and Activate. You can also download this folder and add it into your plugins directory. 
-
-"Carousel Block" will be added to your blocks in the "Common Blocks" group. 
  
 = What is Gutenberg? =
  
-"Gutenberg" is the name of the project to create a new editor experience for WordPress. The goal is to create a new post and page editing experience that makes it easy for anyone to create rich post layouts.
+Gutenberg is the name of the new block based editor introduced in WordPress 5. Gutenberg makes it easy to create content within the editor using blocks.
+
+= How do I add a carousel to WordPress? =
+ 
+Select the Carousel Slider block from the Design category.
+
+= How do I add a slide to WordPress? =
+ 
+Select the Carousel Slider block. Click the plus button to add slides to the carousel. 
 
 ---
-
-Carousel Block uses the slick jQuery plugin http://kenwheeler.github.io/slick/. Carousel icon made by https://www.flaticon.com/authors/kiranshastry from www.flaticon.com. Block SVG icon by Materialize CSS https://materializecss.com/icons.html/ 
 
 
 == Changelog ==
@@ -74,3 +91,21 @@ Fixed lodash issue.
 = 1.0.2 =
 Updates for latest WP Gutenberg version. Fixed editor CSS. 
 
+= 1.0.3 =
+Added autoplay settings.
+
+= 1.0.4 =
+Improved UI experience by using inner blocks controls. Added RTL option. Removed padding option. Updated slide block icon.
+
+= 1.0.5 =
+Added block.json. Improved carousel block layout in the editor. Updated slide block icon. Tested for WordPress 5.9.
+
+= 1.0.6 =
+Eliminated block margin CSS issue in slides.
+Changed the style of the "Add slide" button.
+
+= 1.0.7 =
+Added responsive setting for slides to scroll at a time.
+
+= 1.0.8 =
+Small CSS improvements in the editor. Updated slick CSS stylesheet handle. Tested on WordPress 6.0.
