@@ -132,7 +132,7 @@ final class NF_Display_Render
         $form->update_setting( 'currency_symbol', ( isset( $currency_symbol[ $currency ] ) ) ? $currency_symbol[ $currency ] : '' );
 
         $title = apply_filters( 'ninja_forms_form_title', $form->get_setting( 'title' ), $form_id );
-        $form->update_setting( 'title', $title );
+        $form->update_setting( 'title', esc_html( $title ) );
 
         $before_form = apply_filters( 'ninja_forms_display_before_form', '', $form_id );
         $form->update_setting( 'beforeForm', $before_form );
@@ -650,7 +650,9 @@ final class NF_Display_Render
             'ajaxNonce' => wp_create_nonce( 'ninja_forms_display_nonce' ),
             'requireBaseUrl' => Ninja_Forms::$url . 'assets/js/',
             'use_merge_tags' => array(),
-            'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' )
+            'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' ),
+            'filter_esc_status'  =>    json_encode( WPN_Helper::maybe_disallow_unfiltered_html_for_escaping() ),
+            'nf_consent_status_response'    => [],
         ));
 
         foreach( Ninja_Forms()->fields as $field ){

@@ -18,11 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Fired during plugin updates.
  *
  * This class defines all code necessary to run during the plugin's updates.
- *
- * @since      2.1.7
- * @package    WP_Carousel_Free
- * @subpackage WP_Carousel_Free/includes
- * @author     ShapedPlugin <support@shapedplugin.com>
  */
 class WP_Carousel_Free_Updates {
 
@@ -31,9 +26,12 @@ class WP_Carousel_Free_Updates {
 	 *
 	 * @var array
 	 */
-	private static $updates = [
-		'2.1.7' => 'updates/update-2.1.7.php',
-	];
+	private static $updates = array(
+		'2.1.7'  => 'updates/update-2.1.7.php',
+		'2.4.7'  => 'updates/update-2.4.7.php',
+		'2.4.11' => 'updates/update-2.4.11.php',
+		'2.4.12' => 'updates/update-2.4.12.php',
+	);
 
 	/**
 	 * Binding all events

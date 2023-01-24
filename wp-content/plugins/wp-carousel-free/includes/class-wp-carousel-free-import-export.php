@@ -1,7 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
 /**
  * Custom import export.
  *
@@ -12,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @subpackage WP_Carousel_free/includes.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 /**
  * Custom import export.
  */
@@ -21,7 +22,7 @@ class Wp_Carousel_Free_Import_Export {
 	 * Export
 	 *
 	 * @param  mixed $shortcode_ids Export Wp carousel shortcode ids.
-	 * @return array
+	 * @return object
 	 */
 	public function export( $shortcode_ids ) {
 		$export = array();
@@ -63,7 +64,7 @@ class Wp_Carousel_Free_Import_Export {
 				}
 				$export['metadata'] = array(
 					'version' => WPCAROUSELF_VERSION,
-					'date'    => date( 'Y/m/d' ),
+					'date'    => gmdate( 'Y/m/d' ),
 				);
 			}
 			return $export;
@@ -76,11 +77,19 @@ class Wp_Carousel_Free_Import_Export {
 	 * @return void
 	 */
 	public function export_shortcodes() {
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'spf_options_nonce' ) ) {
+		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
 			die();
 		}
-		$shortcode_ids = isset( $_POST['wpcf_ids'] ) ? $_POST['wpcf_ids'] : '';
-
+		// XSS ok.
+		// No worries, This "POST" requests is sanitizing in the below array map.
+		$shortcode_ids = isset( $_POST['wpcf_ids'] ) ? wp_unslash( $_POST['wpcf_ids'] ) : ''; // phpcs:ignore
+		// Sanitize "post" request of field.
+		if ( is_array( $shortcode_ids ) ) {
+			$shortcode_ids = array_map( 'sanitize_text_field', $shortcode_ids );
+		} else {
+			$shortcode_ids = sanitize_text_field( $shortcode_ids );
+		}
 		$export = $this->export( $shortcode_ids );
 
 		if ( is_wp_error( $export ) ) {
@@ -93,8 +102,7 @@ class Wp_Carousel_Free_Import_Export {
 		}
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			// @codingStandardsIgnoreLine
-			echo wp_json_encode($export, JSON_PRETTY_PRINT);
+			echo wp_json_encode( $export, JSON_PRETTY_PRINT );
 			die;
 		}
 
@@ -123,7 +131,7 @@ class Wp_Carousel_Free_Import_Export {
 		}
 		$http     = new \WP_Http();
 		$response = $http->request( $url );
-		if ( $response['response']['code'] != 200 ) {
+		if ( 200 !== $response['response']['code'] ) {
 			return false;
 		}
 		$upload = wp_upload_bits( basename( $url ), null, $response['body'] );
@@ -165,7 +173,8 @@ class Wp_Carousel_Free_Import_Export {
 	 *
 	 * @param  mixed $shortcodes Import logo and carousel shortcode array.
 	 *
-	 * @return string
+	 * @throws \Exception .
+	 * @return object
 	 */
 	public function import( $shortcodes ) {
 		$errors = array();
@@ -186,7 +195,10 @@ class Wp_Carousel_Free_Import_Export {
 				if ( ! empty( $image_gallery ) ) {
 					$gallery_id = array();
 					foreach ( $image_gallery as $img_url ) {
-						$gallery_id[] = $this->insert_attachment_from_url( $img_url, $new_shortcode_id );
+						$image_id = $this->insert_attachment_from_url( $img_url, $new_shortcode_id );
+						if ( $image_id ) {
+							$gallery_id[] = $image_id;
+						}
 					}
 					$gallery_img_url_id                          = implode( ',', $gallery_id );
 					$data                                        = unserialize( $shortcode['meta']['sp_wpcp_upload_options'] );
@@ -232,11 +244,12 @@ class Wp_Carousel_Free_Import_Export {
 	 * @return void
 	 */
 	public function import_shortcodes() {
-		if ( ! wp_verify_nonce( $_POST['nonce'], 'spf_options_nonce' ) ) {
+		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
 			die();
 		}
-		$data       = isset( $_POST['shortcode'] ) ? $_POST['shortcode'] : '';
-		$data       = json_decode( stripslashes( $data ) );
+		$data       = isset( $_POST['shortcode'] ) ? wp_kses_data( wp_unslash( $_POST['shortcode'] ) ) : '';
+		$data       = json_decode( $data );
 		$data       = json_decode( $data, true );
 		$shortcodes = $data['shortcode'];
 		if ( ! $data ) {

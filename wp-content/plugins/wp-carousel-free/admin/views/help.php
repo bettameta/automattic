@@ -73,8 +73,8 @@ class WP_Carousel_Free_Help {
 			<div class="header-area">
 				<div class="container">
 					<div class="header-logo">
-						<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/wpcp-logo.svg'; ?>" alt="">
-						<span><?php echo WPCAROUSELF_VERSION; ?></span>
+						<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/wpcp-logo.svg'; ?>" alt="">
+						<span><?php echo esc_attr( WPCAROUSELF_VERSION ); ?></span>
 					</div>
 					<div class="header-content">
 						<p>Thank you for installing WP Carousel plugin! This video will help you get started with the plugin.</p>
@@ -82,7 +82,7 @@ class WP_Carousel_Free_Help {
 				</div>
 			</div>
 			<div class="video-area">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/hCeKn8jmxn4" frameborder="0" allowfullscreen=""></iframe>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLoUb-7uG-5jO_zo3exhqUNlZ7h0FQVJTt" frameborder="0" allowfullscreen=""></iframe>
 			</div>
 			<div class="content-area">
 				<div class="container">
@@ -99,58 +99,59 @@ class WP_Carousel_Free_Help {
 		<section class="sp-wpc__help upgrade">
 			<div class="upgrade-area">
 				<div class="upgrade-img">
-				<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/wpcp-Icon.svg'; ?>" alt="">
+				<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/wpcp-Icon.svg'; ?>" alt="">
 				</div>
-				<h2>Upgrade To Unleash the Power of  WordPress Carousel Pro</h2>
-				<p>Get the most out of WordPress Carousel by upgrading to unlock all of its powerful features. With WordPress Carousel Pro, you can unlock amazing features like:</p>
+				<h2>Upgrade To Unleash the Power of WP Carousel Pro</h2>
+				<p>Get the most out of WP Carousel by upgrading to unlock all of its powerful features. With WP Carousel Pro, you can unlock amazing features like:</p>
 			</div>
 			<div class="upgrade-info">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-6">
 							<ul class="upgrade-list">
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Fully responsive, SEO-friendly & optimized.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Advanced Shortcode Generator.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Slide Anything (e.g. Image, Post, Product, Content, Video, Text, HTML, Shortcodes, etc.)</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Display posts from multiple Categories, Tags, Formats, or Types. (e.g. Latest, Taxonomies, Specific, etc.).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Multiple Carousels on the same page.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">100+ Visual Customization options.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Drag & Drop Carousel builder (image, content, video, etc.).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Carousel with internal and external links.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Carousel with caption and description.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Content Position (Bottom, Top, Right, and Overlay).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Show/hide image caption and description.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Slide background, border, and inner padding.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Lightbox functionality for images.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Modern effects for images (grayscale, zoom, fade).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Custom image resizes options.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Variable width option in the carousel.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Post Carousel with Title, image, excerpt, read more, category, date, author, tags, comments, etc.).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Post excerpt, full content, and content with the limit.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Fully responsive, SEO-friendly & optimized.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">6 Beautiful layout presets (Carousel, Tiles, Masonry, Grid, Justified, Thumbnails Slider).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Advanced Shortcode Generator.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Slide Anything (e.g. Image, Post, Product, Content, Video, Text, HTML, Shortcodes, etc.)</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Display posts from multiple Categories, Tags, Formats, or Types. (e.g. Latest, Taxonomies, Specific, etc.).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Multiple Carousels on the same page.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">100+ Visual Customization options.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Drag & Drop Carousel builder (image, content, video, etc.).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Carousel with internal and external links.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Carousel with caption and description.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Image Content Position (Bottom, Top, Right, and Overlay).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Show/hide image caption and description.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Slide background, border, and inner padding.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Lightbox functionality for images.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Modern effects for images (grayscale, zoom, fade).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Custom image resizes options.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Variable width option in the carousel.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Post Carousel with Title, image, excerpt, read more, category, date, author, tags, comments, etc.).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Post excerpt, full content, and content with the limit.</li>
 							</ul>
 						</div>
 						<div class="col-lg-6">
 							<ul class="upgrade-list">
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">WooCommerce Product Carousel.</li>	
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Product content position (Bottom, Top, Right, Overlay)Filter by different product types (e.g. latest, categories, specific products, etc.).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Show/hide the standard product contents (product name, image, price, excerpt, read more, rating, add to cart, etc.).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Content Carousel (Anything).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Video Carousel with lightbox.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Supported YouTube, Vimeo, Dailymotion, mp4, WebM, and even self-hosted video.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Add Custom Video Thumbnails (for self-hosted) and video icon.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Carousel Mode (standard, center, ticker).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">25+ Carousel controls.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">8+ Different navigation positions.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Typography & Styling options (840+ Google fonts).</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Duplicate or clone carousels.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Advanced plugin settings.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Multisite, RTL, and Accessibility ready.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Fully Translation ready with WPML, Polylang, Loco Translate, and more.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Page builders & theme compatibility.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Automatic Updates notifications.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">One To One Fast & Friendly Support</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt="">Developer friendly & highly customizable.</li>
-								<li><img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/checkmark.svg'; ?>" alt=""><span>Not Happy? 100% No Questions Asked <a href="https://shapedplugin.com/refund-policy/" target="_blank">Refund Policy!</a></span></li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">WooCommerce Product Carousel.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Product content position (Bottom, Top, Right, Overlay)Filter by different product types (e.g. latest, categories, specific products, etc.).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Show/hide the standard product contents (product name, image, price, excerpt, read more, rating, add to cart, etc.).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Content Carousel (Anything).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Video Carousel with lightbox.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Supported YouTube, Vimeo, Dailymotion, mp4, WebM, and even self-hosted video.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Add Custom Video Thumbnails (for self-hosted) and video icon.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Carousel Mode (standard, center, ticker).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">25+ Carousel controls.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">8+ Different navigation positions.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Typography & Styling options (840+ Google fonts).</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Duplicate or clone carousels.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Advanced plugin settings.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Multisite, RTL, and Accessibility ready.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Fully Translation ready with WPML, Polylang, Loco Translate, and more.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Page builders & theme compatibility.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Automatic Updates notifications.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">One To One Fast & Friendly Support</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt="">Developer friendly & highly customizable.</li>
+								<li><img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/checkmark.svg'; ?>" alt=""><span>Not Happy? 100% No Questions Asked <a href="https://shapedplugin.com/refund-policy/" target="_blank">Refund Policy!</a></span></li>
 							</ul>
 						</div>
 					</div>
@@ -160,15 +161,15 @@ class WP_Carousel_Free_Help {
 				<div class="upgrade-pro">
 					<div class="pro-content">
 						<div class="pro-icon">
-							<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/wp-carousel-pro.svg'; ?>" alt="">
+							<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/wp-carousel-pro.svg'; ?>" alt="">
 						</div>
 						<div class="pro-text">
-							<h2>Upgrade To WordPress Carousel Pro Today!</h2>
-							<p>Start creating beautiful WordPress carousels in minutes.</p>
+							<h2>Upgrade To WP Carousel Pro Today!</h2>
+							<p>Start creating beautiful WordPress Carousels, Sliders, Galleries in minutes.</p>
 						</div>
 					</div>
 					<div class="pro-btn">
-						<a href="https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1" target="_blank">Upgrade To Pro Now</a>
+						<a href="https://wordpresscarousel.com/pricing/?ref=1" target="_blank">Upgrade To Pro Now</a>
 					</div>
 				</div>
 			</div>
@@ -185,7 +186,7 @@ class WP_Carousel_Free_Help {
 						</div>
 						<div class="testimonial-info">
 							<div class="img">
-								<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/Joyce-van-den-Berg.png'; ?>" alt="">
+								<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/Joyce-van-den-Berg.png'; ?>" alt="">
 							</div>
 							<div class="info">
 								<h3>Joyce van den Berg</h3>
@@ -203,7 +204,7 @@ class WP_Carousel_Free_Help {
 						</div>
 						<div class="testimonial-info">
 							<div class="img">
-								<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/Graeme-Myburgh.jpeg'; ?>" alt="">
+								<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/Graeme-Myburgh.jpeg'; ?>" alt="">
 							</div>
 							<div class="info">
 								<h3>Graeme Myburgh</h3>
@@ -221,6 +222,4 @@ class WP_Carousel_Free_Help {
 	</div>
 		<?php
 	}
-
 }
-

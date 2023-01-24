@@ -1,4 +1,15 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * The admin tools menu of the plugin.
+ *
+ * @link https://shapedplugin.com
+ * @since 2.0.0
+ *
+ * @package WP_Carousel_Free
+ * @subpackage WP_Carousel_Free/admin/views
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
 	die; } // Cannot access directly.
 
 //
@@ -50,7 +61,7 @@ SP_WPCF::createSection(
 				'id'          => 'lcp_post',
 				'class'       => 'wpcp_post_ids',
 				'type'        => 'select',
-				'title'       => __( ' ', 'wp-carousel-free' ),
+				'title'       => ' ',
 				'options'     => 'sp_wp_carousel',
 				'chosen'      => true,
 				'sortable'    => false,

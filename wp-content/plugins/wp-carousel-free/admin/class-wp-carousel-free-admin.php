@@ -5,8 +5,8 @@
  * @link https://shapedplugin.com
  * @since 2.0.0
  *
- * @package WordPress_Carousel_Pro
- * @subpackage WordPress_Carousel_Pro/admin
+ * @package WP_Carousel_Free
+ * @subpackage WP_Carousel_Free/admin
  */
 
 /**
@@ -40,27 +40,6 @@ class WP_Carousel_Free_Admin {
 	 */
 	protected $version;
 
-	/**
-	 * The single instance of the class.
-	 *
-	 * @var self
-	 * @since 2.0.0
-	 */
-	private static $_instance = null;
-
-	/**
-	 * Allows for accessing single instance of class. Class should only be constructed once per call.
-	 *
-	 * @since 2.0.0
-	 * @static
-	 * @return self Main instance.
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Initialize the class sets its properties.
@@ -103,11 +82,11 @@ class WP_Carousel_Free_Admin {
 			2  => '',
 			3  => '',
 			4  => __( 'Carousel updated.', 'wp-carousel-free' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Carousel restored to revision from %s', 'wp-carousel-free' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( 'Carousel restored to revision from %s', wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:disable WordPress.Security.NonceVerification.Recommended
 			6  => sprintf( __( 'Carousel published.', 'wp-carousel-free' ) ),
 			7  => __( 'Carousel saved.', 'wp-carousel-free' ),
 			8  => sprintf( __( 'Carousel submitted.', 'wp-carousel-free' ) ),
-			9  => sprintf( __( 'Carousel scheduled for: <strong>%1$s</strong>.', 'wp-carousel-free' ), date_i18n( __( 'M j, Y @ G:i', 'wp-carousel-free' ), strtotime( $post->post_date ) ) ),
+			9  => sprintf( 'Carousel scheduled for: <strong>%1$s</strong>', date_i18n( __( 'M j, Y @ G:i', 'wp-carousel-free' ), strtotime( $post->post_date ) ) ),
 			10 => sprintf( __( 'Carousel draft updated.', 'wp-carousel-free' ) ),
 		);
 		return $messages;
@@ -120,9 +99,9 @@ class WP_Carousel_Free_Admin {
 	 */
 	public function filter_carousel_admin_column() {
 		$admin_columns['cb']            = '<input type="checkbox" />';
-		$admin_columns['title']         = __( 'Carousel Title', 'wp-carousel-free' );
+		$admin_columns['title']         = __( 'Title', 'wp-carousel-free' );
 		$admin_columns['shortcode']     = __( 'Shortcode', 'wp-carousel-free' );
-		$admin_columns['carousel_type'] = __( 'Carousel Type', 'wp-carousel-free' );
+		$admin_columns['carousel_type'] = __( 'Source Type', 'wp-carousel-free' );
 		$admin_columns['date']          = __( 'Date', 'wp-carousel-free' );
 
 		return $admin_columns;
@@ -141,11 +120,11 @@ class WP_Carousel_Free_Admin {
 		$carousels_types = isset( $upload_data['wpcp_carousel_type'] ) ? $upload_data['wpcp_carousel_type'] : '';
 		switch ( $column ) {
 			case 'shortcode':
-				$column_field = '<input style="width: 270px; padding: 6px;cursor:pointer;" type="text" onClick="this.select();" readonly="readonly" value="[sp_wpcarousel id=&quot;' . $post_id . '&quot;]"/><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>';
-				echo $column_field;
+				$column_field = '<input style="max-width:100%;width: 270px; padding: 6px;cursor:pointer;" type="text" onClick="this.select();" readonly="readonly" value="[sp_wpcarousel id=&quot;' . esc_attr( $post_id ) . '&quot;]"/><div class="spwpc-after-copy-text"><i class="fa fa-check-circle"></i> Shortcode Copied to Clipboard! </div>';
+				echo $column_field; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 			case 'carousel_type':
-				echo ucwords( str_replace( '-', ' ', $carousels_types ) );
+				echo ucwords( str_replace( '-', ' ', $carousels_types ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		} // end switch.
 	}
@@ -163,11 +142,11 @@ class WP_Carousel_Free_Admin {
 	public function add_plugin_action_links( $links, $plugin_file ) {
 
 		if ( WPCAROUSELF_BASENAME === $plugin_file ) {
-			$ui_links = sprintf( '<a href="%s">%s</a>', admin_url( 'post-new.php?post_type=sp_wp_carousel' ), __( 'Create Carousel', 'wp-carousel-free' ) );
+			$ui_links = sprintf( '<a href="%s">%s</a>', admin_url( 'post-new.php?post_type=sp_wp_carousel' ), __( 'Add New', 'wp-carousel-free' ) );
 
 			array_unshift( $links, $ui_links );
 
-			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Premium!</a>', 'https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1' );
+			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Pro!</a>', 'https://wordpresscarousel.com/pricing/?ref=1' );
 		}
 
 		return $links;
@@ -193,7 +172,7 @@ class WP_Carousel_Free_Admin {
 	public function plugin_row_meta( $plugin_meta, $plugin_file ) {
 		if ( WPCAROUSELF_BASENAME === $plugin_file ) {
 			$row_meta = array(
-				'docs' => '<a href="https://wordpresscarousel.com" aria-label="' . esc_attr( __( 'Live Demo', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Live Demo', 'wp-carousel-free' ) . '</a>',
+				'docs' => '<a href="https://wordpresscarousel.com/wp-carousel-free-demo/" aria-label="' . esc_attr( __( 'Live Demo', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Live Demo', 'wp-carousel-free' ) . '</a>',
 				'ideo' => '<a href="https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/" aria-label="' . esc_attr( __( 'View WP Carousel Video Tutorials', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Docs & Video Tutorials', 'wp-carousel-free' ) . '</a>',
 			);
 
@@ -214,7 +193,7 @@ class WP_Carousel_Free_Admin {
 		$screen = get_current_screen();
 		if ( 'sp_wp_carousel' === get_post_type() || 'sp_wp_carousel_page_wpcp_settings' === $screen->id || 'sp_wp_carousel_page_wpcp_help' === $screen->id ) {
 			$url  = 'https://wordpress.org/support/plugin/wp-carousel-free/reviews/?filter=5#new-post';
-			$text = sprintf( __( 'If you like <strong>WordPress Carousel</strong>, please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Your Review is very important to us as it helps us to grow more. ', 'wp-carousel-free' ), $url );
+			$text = sprintf( 'If you like <strong>WP Carousel</strong>, please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Your Review is very important to us as it helps us to grow more. ', $url );
 		}
 
 		return $text;

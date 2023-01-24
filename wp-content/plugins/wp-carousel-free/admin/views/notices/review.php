@@ -47,7 +47,7 @@ class WP_Carousel_Free_Review {
 		?>
 		<div id="sp-wpcfree-review-notice" class="sp-wpcfree-review-notice">
 			<div class="sp-wpcfree-plugin-icon">
-				<img src="<?php echo WPCAROUSELF_URL . 'admin/img/images/wp-carousel-pro.svg'; ?>" alt="WP Carousel">
+				<img src="<?php echo esc_url( WPCAROUSELF_URL ) . 'admin/img/images/wp-carousel-pro.svg'; ?>" alt="WP Carousel">
 			</div>
 			<div class="sp-wpcfree-notice-text">
 				<h3>Enjoying <strong>WP Carousel</strong>?</h3>
@@ -81,7 +81,8 @@ class WP_Carousel_Free_Review {
 
 					$.post( ajaxurl, {
 						action: 'sp-wpcfree-never-show-review-notice',
-						notice_dismissed_data : notice_dismissed_value
+						notice_dismissed_data : notice_dismissed_value,
+						nonce: "<?php echo esc_html( wp_create_nonce( 'wpcfree-review-notice' ) ); ?>",
 					});
 
 					$('#sp-wpcfree-review-notice.sp-wpcfree-review-notice').hide();
@@ -100,24 +101,27 @@ class WP_Carousel_Free_Review {
 	 * @return void
 	 **/
 	public function dismiss_review_notice() {
-		if ( ! $review ) {
-			$review = array();
+		$review = array();
+		$nonce  = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( wp_verify_nonce( $nonce, 'wpcfree-review-notice' ) ) {
+			$notice_dismissed = ( ! empty( $_POST['notice_dismissed_data'] ) ) ? sanitize_text_field( wp_unslash( $_POST['notice_dismissed_data'] ) ) : '';
+
+			switch ( $notice_dismissed ) {
+				case '1':
+					$review['time']      = time();
+					$review['dismissed'] = false;
+					break;
+				case '2':
+					$review['time']      = time();
+					$review['dismissed'] = false;
+					break;
+				case '3':
+					$review['time']      = time();
+					$review['dismissed'] = true;
+					break;
+			}
+			update_option( 'sp_wp_carousel_free_review_notice_dismiss', $review );
+			die;
 		}
-		switch ( $_POST['notice_dismissed_data'] ) {
-			case '1':
-				$review['time']      = time();
-				$review['dismissed'] = false;
-				break;
-			case '2':
-				$review['time']      = time();
-				$review['dismissed'] = false;
-				break;
-			case '3':
-				$review['time']      = time();
-				$review['dismissed'] = true;
-				break;
-		}
-		update_option( 'sp_wp_carousel_free_review_notice_dismiss', $review );
-		die;
 	}
 }

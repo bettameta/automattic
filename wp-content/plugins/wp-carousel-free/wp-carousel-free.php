@@ -6,10 +6,10 @@
  * @since   2.0.0
  * @package WP_Carousel_Free
  *
- * Plugin Name:       WordPress Carousel
- * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1
- * Description:       The Most Powerful and User-friendly WordPress Carousel Plugin. Create beautiful carousels in minutes using Images, Posts, WooCommerce Products etc.
- * Version:           2.2.0
+ * Plugin Name:       WP Carousel
+ * Plugin URI:        https://wordpresscarousel.com/
+ * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
+ * Version:           2.5.3
  * Author:            ShapedPlugin
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -17,7 +17,7 @@
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 4.0
- * WC tested up to: 5.4.1
+ * WC tested up to: 7.2.0
  */
 
 // If this file is called directly, abort.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.2.0';
+		$this->version     = '2.5.3';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -136,11 +136,11 @@ class SP_WP_Carousel_Free {
 	 * @return void
 	 */
 	private function define_constants() {
-		$this->define( 'WPCAROUSELF_BASENAME', plugin_basename( __FILE__ ) );
-		$this->define( 'WPCAROUSELF_VERSION', $this->version );
-		$this->define( 'WPCAROUSELF_PATH', plugin_dir_path( __FILE__ ) );
-		$this->define( 'WPCAROUSELF_INCLUDES', WPCAROUSELF_PATH . '/includes' );
-		$this->define( 'WPCAROUSELF_URL', plugin_dir_url( __FILE__ ) );
+		define( 'WPCAROUSELF_BASENAME', plugin_basename( __FILE__ ) );
+		define( 'WPCAROUSELF_VERSION', $this->version );
+		define( 'WPCAROUSELF_PATH', plugin_dir_path( __FILE__ ) );
+		define( 'WPCAROUSELF_INCLUDES', WPCAROUSELF_PATH . '/includes' );
+		define( 'WPCAROUSELF_URL', plugin_dir_url( __FILE__ ) );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carosuel-free-updates.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-loader.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-post-types.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/wpcfree-metabox/classes/setup.class.php';
+		include_once WPCAROUSELF_PATH . '/admin/views/sp-framework/classes/setup.class.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/notices/review.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/notices/class-wp-carousel-free-promotion.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
@@ -175,11 +175,14 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-import-export.php';
 		include_once WPCAROUSELF_PATH . '/public/shortcode-deprecated.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
+		include_once WPCAROUSELF_PATH . '/public/WPCF_Helper.php';
 		include_once WPCAROUSELF_PATH . '/public/class-wp-carousel-free-public.php';
 		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-admin.php';
-		include_once WPCAROUSELF_PATH . '/admin/views/tmce-button.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/help.php';
 		include_once WPCAROUSELF_PATH . '/admin/views/premium.php';
+		include_once WPCAROUSELF_PATH . '/admin/preview/class-wp-carousel-free-preview.php';
+		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-gutenberg-block.php';
+		require_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-elementor-block.php';
 	}
 
 	/**
@@ -213,7 +216,7 @@ class SP_WP_Carousel_Free {
 	 * @access private
 	 */
 	private function set_locale() {
-		 $plugin_i18n = new WP_Carousel_Free_I18n();
+		$plugin_i18n = new WP_Carousel_Free_I18n();
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
@@ -259,11 +262,22 @@ class SP_WP_Carousel_Free {
 
 		// Help Page.
 		$help_page = new WP_Carousel_Free_Help( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'admin_menu', $help_page, 'help_admin_menu', 40 );
+		$this->loader->add_action( 'admin_menu', $help_page, 'help_admin_menu', 35 );
 
 		// Premium Page.
 		$upgrade_page = new WP_Carousel_Free_Upgrade( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'admin_menu', $upgrade_page, 'upgrade_admin_menu', 35 );
+		$this->loader->add_action( 'admin_menu', $upgrade_page, 'upgrade_admin_menu', 40 );
+
+		// Gutenberg block.
+		if ( version_compare( $GLOBALS['wp_version'], '5.3', '>=' ) ) {
+			new WP_Carousel_Free_Gutenberg_Block();
+		}
+
+		// Elementor shortcode block.
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( ( is_plugin_active( 'elementor/elementor.php' ) || is_plugin_active_for_network( 'elementor/elementor.php' ) ) ) {
+			new Wp_Carousel_Free_Element_Shortcode_Block();
+		}
 
 	}
 
@@ -276,9 +290,10 @@ class SP_WP_Carousel_Free {
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new WP_Carousel_Free_Public( $this->get_plugin_name(), $this->get_version() );
-
+		$this->loader->add_action( 'wp_loaded', $plugin_public, 'register_all_scripts' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'save_post', $plugin_public, 'delete_page_wp_carousel_option_on_save' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_public, 'admin_enqueue_scripts' );
 
 		$plugin_shortcode = new WP_Carousel_Free_Shortcode( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_shortcode( 'sp_wpcarousel', $plugin_shortcode, 'sp_wp_carousel_shortcode' );
@@ -293,7 +308,7 @@ class SP_WP_Carousel_Free {
 	 * @return string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
-		 return $this->plugin_name;
+		return $this->plugin_name;
 	}
 
 	/**
@@ -303,7 +318,7 @@ class SP_WP_Carousel_Free {
 	 * @return string    The version number of the plugin.
 	 */
 	public function get_version() {
-		 return $this->version;
+		return $this->version;
 	}
 
 	/**
@@ -322,7 +337,7 @@ class SP_WP_Carousel_Free {
 	 * @since 2.0.0
 	 */
 	public function run() {
-		 $this->loader->run();
+		$this->loader->run();
 	}
 
 } // SP_WP_Carousel_Free

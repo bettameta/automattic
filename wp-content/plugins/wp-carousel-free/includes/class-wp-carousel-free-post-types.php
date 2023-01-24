@@ -1,7 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
 /**
  * The file that defines the carousel post type.
  *
@@ -10,9 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @link http://shapedplugin.com
  * @since 2.0.0
  *
- * @package WordPress_Carousel_Pro
- * @subpackage WordPress_Carousel_Pro/includes
+ * @package WP_Carousel_Free
+ * @subpackage WP_Carousel_Free/includes
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Custom post class to register the carousel.
@@ -88,6 +89,30 @@ class WP_Carousel_Free_Post_Type {
 			)
 		);
 
+		// Base 64 encoded SVG image.
+		$menu_icon = 'data:image/svg+xml;base64,' . base64_encode(
+			'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 720 566" style="enable-background:new 0 0 720 566;" xml:space="preserve">
+			<style type="text/css">
+				.st0{fill:#A0A5AA;}
+			</style>
+			<g>
+				<g>
+					<g>
+						<polygon class="st0" points="540.8,322 462.3,224.4 509.9,186 588.5,283.7    "/>
+						<polygon class="st0" points="510.2,381.4 462.5,343.1 541.1,245.4 588.7,283.8    "/>
+					</g>
+					<g>
+						<polygon class="st0" points="179.9,322 132.3,283.7 210.8,186 258.5,224.4    "/>
+						<polygon class="st0" points="210.6,381.4 132,283.8 179.7,245.4 258.3,343.1    "/>
+					</g>
+				</g>
+				<g>
+					<path class="st0" d="M711.3,556.9H9.4V10.6h701.9L711.3,556.9L711.3,556.9z M88.7,477.6H632V89.9H88.7V477.6z"/>
+				</g>
+			</g>
+			</svg>'
+		);
+
 		// Set the WordPress carousel post type arguments.
 		$args = apply_filters(
 			'sp_wp_carousel_post_type_args',
@@ -99,7 +124,7 @@ class WP_Carousel_Free_Post_Type {
 				'show_ui'             => current_user_can( 'manage_options' ) ? true : false,
 				'show_in_admin_bar'   => false,
 				'menu_position'       => apply_filters( 'sp_wp_carousel_menu_position', 120 ),
-				'menu_icon'           => WPCAROUSELF_URL . '/admin/js/wp-carousel-icon.svg',
+				'menu_icon'           => $menu_icon,
 				'rewrite'             => false,
 				'query_var'           => false,
 				'supports'            => array(

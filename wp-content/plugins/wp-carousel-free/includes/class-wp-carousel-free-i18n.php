@@ -14,9 +14,6 @@
 
 /**
  * WP_Carousel_Free_I18n define the internationalization functionality.
- *
- * @since      2.0.0
- * @author     ShapedPlugin <shapedplugin@gmail.com>
  */
 class WP_Carousel_Free_I18n {
 
@@ -35,7 +32,5 @@ class WP_Carousel_Free_I18n {
 		);
 
 	}
-
-
 
 }

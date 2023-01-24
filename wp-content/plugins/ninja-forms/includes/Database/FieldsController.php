@@ -194,12 +194,25 @@ final class NF_Database_FieldsController
             }
         }
     }
+    
     private function parse_field_meta()
     {
+        // collect sanitized data to rewrite class property $this->fields_data
+        $updatedFieldsData=[];
+
         $existing_meta = $this->get_existing_meta();
+
         foreach( $this->fields_data as $field_data ){
+
             $field_id = $field_data[ 'id' ];
+
             foreach( $field_data[ 'settings' ] as $key => $value ){
+
+                //Sanitize string settings if disallow_unfiltered_html is true
+                if(is_string($value) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()){
+                    $field_data[ 'settings' ][$key] = WPN_Helper::sanitize_string_setting_value($key, $value);
+                }
+
                 // we don't need object type or domain stored in the db
                 if( ! in_array( $key, array( 'objectType', 'objectDomain' ) ) ) {
                     if( isset( $existing_meta[ $field_id ][ $key ] ) ){
@@ -210,8 +223,15 @@ final class NF_Database_FieldsController
                     }
                 }
             }
+
+            // Add field_data to updated collection
+            $updatedFieldsData[]=$field_data;
         }
+
+        // Rewrite the collection with the updated fields_data collection
+        $this->fields_data = $updatedFieldsData;
     }
+
     private function get_existing_meta()
     {
 

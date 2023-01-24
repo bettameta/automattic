@@ -1,18 +1,29 @@
 /*--------------------------------------------------------------
 ##  Preloader
 --------------------------------------------------------------*/
+.wpcp-carousel-wrapper * {
+	word-break: break-word;
+	word-wrap: break-word;
+	box-sizing: border-box;
+}
+
 .wpcp-carousel-section.wpcp-standard:not(.wpcp-preloader) {
 	display: none;
 }
-.wpcp-carousel-section.wpcp-standard.slick-initialized:not(.wpcp-preloader) {
-	display: block;		
+
+.wpcp-carousel-section.wpcp-standard.swiper-initialized:not(.wpcp-preloader) {
+	display: block;
 }
+
+.wpcp-carousel-wrapper .wpcp-carousel-content-wrapper,
 .wpcp-carousel-wrapper {
 	position: relative;
 }
+
 .wpcp-carousel-section.wpcp-preloader {
 	opacity: 0;
 }
+
 .wpcp-carousel-preloader {
 	position: absolute;
 	left: 0;
@@ -31,27 +42,33 @@
 .sp-wpcp-wrapper {
 	margin-bottom: 0;
 }
-.wpcp-carousel-section.wpcp-standard .slick-list,
+
+/* .wpcp-carousel-section.wpcp-standard .slick-list, */
 .wpcp-carousel-section.wpcp-standard {
 	overflow: hidden;
 }
+
 .wpcp-carousel-section.wpcp-standard {
 	overflow: hidden;
 	padding-right: 2px;
 }
-.wpcp-carousel-section.wpcp-standard.slick-initialized {
-	position: relative;
+
+.wpcp-carousel-section .swiper-wrapper {
+	align-items: center;
 }
+
 .wpcp-carousel-section .wpcp-single-item {
 	overflow: hidden;
-	display: inline-block;
 	vertical-align: middle;
 	float: none;
+	max-width: 100%;
 }
+
 .wpcp-all-captions li {
 	list-style: none;
 	margin: 0;
 }
+
 .wpcp-carousel-section ul,
 .wpcp-carousel-section p,
 .wpcp-image-carousel .wpcp-single-item .wpcp-all-captions h2 {
@@ -61,38 +78,37 @@
 .wpcp-carousel-section.wpcp-video-carousel .wpcp-single-item .wpcp-slide-image {
 	position: relative;
 }
-.wpcp-carousel-section.wpcp-content-carousel .wpcp-single-item{
+
+.wpcp-carousel-section.wpcp-content-carousel .wpcp-single-item {
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+.wpcp-carousel-section .wpcp-single-item img[data-lazy] {
+	width: 32px;
+}
+
 .wpcp-carousel-section .wpcp-single-item img {
 	margin: 0 auto;
 	max-width: 100%;
 	height: auto;
 	box-shadow: none;
 }
+
 .wpcp-carousel-section.wpcp-image-carousel .wpcp-single-item .wpcp-all-captions {
 	padding: 10px 20px 15px;
 }
-.wpcp-carousel-section .wpcp-single-item .wpcp-all-captions .wpcp-image-description{
+
+.wpcp-carousel-section .wpcp-single-item .wpcp-all-captions .wpcp-image-description {
 	margin: 6px 0 0;
 }
-.wpcp-carousel-section .wpcp-single-item .wpcp-slide-image a:focus{
+
+.wpcp-carousel-section .wpcp-single-item .wpcp-slide-image a:focus {
 	outline: none;
 }
-.wpcp-carousel-section .slick-slide:focus {
-	outline: none;
-}
-.wpcp-carousel-section.slick-initialized .slick-slide {
-	margin-right: 20px;    
-	float: none;
-	display: inline-block;
-    vertical-align: middle;
-}
-.wpcp-carousel-section .slick-list {
-	margin-right: -20px;
-}
-.wpcp-carousel-section a, .wpcp-carousel-section a:hover,
+
+.wpcp-carousel-section a,
+.wpcp-carousel-section a:hover,
 .wpcp-carousel-section .wpcp-all-captions a {
 	text-decoration: none;
 }
@@ -105,6 +121,7 @@
 	overflow: hidden;
 }
 
+#poststuff h2,
 .wpcp-post-carousel .wpcp-single-item .wpcp-all-captions h2 {
 	font-size: 16px;
 	font-weight: 600;
@@ -121,6 +138,7 @@
 	padding: 0;
 	display: block;
 }
+
 .wpcp-post-carousel .wpcp-all-captions p {
 	margin-bottom: 15px;
 }
@@ -135,13 +153,17 @@
 	font-weight: 600;
 }
 
-.wpcp_readmore, .wpcp_readmore:focus, .wpcp_readmore:hover {
+.wpcp_readmore,
+.wpcp_readmore:focus,
+.wpcp_readmore:hover {
 	color: #fff;
 }
+
 .wpcp-single-item .wpcp-all-captions .wpcp-post-meta {
-	margin: 0 0 20px;
+	margin: 0 0 6px;
 	padding: 0;
 }
+
 .wpcp-post-carousel .wpcp-post-meta li {
 	display: inline-block;
 	margin-right: 5px;
@@ -151,11 +173,13 @@
 	margin-right: 0;
 }
 
-.wpcp-post-meta li, .wpcp-post-meta li a {
+.wpcp-post-meta li,
+.wpcp-post-meta li a {
 	color: #999;
 }
 
-.wpcp-carousel-section.detail-on-right .wpcp-single-item .wpcp-slide-image,.wpcp-carousel-section.detail-on-right .wpcp-single-item .wpcp-all-captions {
+.wpcp-carousel-section.detail-on-right .wpcp-single-item .wpcp-slide-image,
+.wpcp-carousel-section.detail-on-right .wpcp-single-item .wpcp-all-captions {
 	float: left;
 	width: 50%;
 	box-sizing: border-box;
@@ -200,6 +224,7 @@
 .wpcp-carousel-section .wpcp-single-item:focus {
 	outline: none;
 }
+
 /*--------------------------------------------------------------
 ## Product Carousel
 --------------------------------------------------------------*/
@@ -208,27 +233,31 @@
 	overflow: hidden;
 	text-align: center;
 }
+
 .wpcp-product-carousel .wpcp-single-item .wpcp-product-title {
 	margin: 0;
 	font-size: 16px;
 	line-height: 23px;
 	font-weight: 600;
 }
+
 .wpcp-product-price {
-	margin-top:5px;
+	margin-top: 5px;
 }
+
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-cart-button {
 	margin-top: 12px;
 }
+
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-cart-button a.button {
 	background: #ebebeb;
 	color: #545454;
-	border: 1px solid #d1d1d1;	
+	border: 1px solid #d1d1d1;
 	font-weight: 500;
-	padding: 0 20px;
-    line-height: 38px;
-    display: inline-block;
-    font-size: 14px;
+	padding: 8px 20px;
+	line-height: 22px;
+	display: inline-block;
+	font-size: 14px;
 }
 
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button a.add_to_cart_button.added {
@@ -257,10 +286,10 @@
 	border: 1px solid;
 }
 
-.wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button a.button:hover{
+.wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button a.button:hover {
 	background: #3f3f3f;
-    border-color: #d1d1d1;
-    color: #fff;
+	border-color: #d1d1d1;
+	color: #fff;
 }
 
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button .wc-forward::after {
@@ -271,7 +300,7 @@
 	font-variant: normal;
 	font-weight: normal;
 	line-height: 1;
-	vertical-align: -.125em;
+	vertical-align: -0.125em;
 	font: normal normal normal 14px/1 FontAwesome;
 	font-weight: 900;
 	line-height: inherit;
@@ -279,30 +308,39 @@
 	content: "\f178";
 	margin-left: 0.5407911001em;
 }
+
 .wpcp-carousel-section .woocommerce-product-rating .star-rating {
-    margin: 4px auto;
-    float: none;
+	margin: 4px auto;
+	float: none;
 }
-.wpcp-product-price span{
+
+.wpcp-product-price span {
 	font-weight: 700;
 	font-size: 14px;
 }
+
 /*--------------------------------------------------------------
 ## Carousel Navigation
 --------------------------------------------------------------*/
-.wpcp-carousel-section .slick-prev:before, .wpcp-carousel-section .slick-next:before, .wpcp-carousel-section .slick-prev:after, .wpcp-carousel-section .slick-next:after {
+.wpcp-carousel-section .swiper-button-prev:before,
+.wpcp-carousel-section .swiper-button-next:before,
+.wpcp-carousel-section .swiper-button-prev:after,
+.wpcp-carousel-section .swiper-button-next:after {
 	display: none;
 }
 
-.wpcp-carousel-section .slick-prev {
+.wpcp-carousel-section .swiper-button-prev {
 	left: 0;
+	right: auto;
 }
 
-.wpcp-carousel-section .slick-next {
+.wpcp-carousel-section .swiper-button-next {
 	right: 0;
+	left: auto;
 }
 
-.wpcp-carousel-section .slick-prev, .wpcp-carousel-section .slick-next {
+.wpcp-carousel-section .swiper-button-prev,
+.wpcp-carousel-section .swiper-button-next {
 	width: 30px;
 	height: 30px;
 	line-height: 30px;
@@ -321,49 +359,54 @@
 }
 
 .wpcp-carousel-section.nav-vertical-center {
-	padding: 0 25px;
+	margin: 0 25px;
 }
-.wpcp-carousel-section .slick-prev i, .wpcp-carousel-section .slick-next i, .wpcp-carousel-section .slick-prev, .wpcp-carousel-section .slick-next {
+
+.wpcp-carousel-section .swiper-button-prev i,
+.wpcp-carousel-section .swiper-button-next i,
+.wpcp-carousel-section .swiper-button-prev,
+.wpcp-carousel-section .swiper-button-next {
 	line-height: 28px;
 	font-family: fontawesome;
 	color: #000;
 }
-.wpcp-carousel-section.nav-vertical-center .slick-next, .wpcp-carousel-section.nav-vertical-center .slick-prev { 
+
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	top: 50%;
 }
 
-.wpcp-carousel-section.nav-vertical-center .slick-prev {
-	left: 0;
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
+	left: -5px;
+	right: auto;
+	text-align: left;
 }
-.wpcp-carousel-section.nav-vertical-center .slick-next,
-.wpcp-carousel-section.nav-vertical-center .slick-prev {
+
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	margin-top: -15px;
 }
-.wpcp-carousel-section.nav-vertical-center.slick-dotted .slick-next,
-.wpcp-carousel-section.nav-vertical-center.slick-dotted .slick-prev {
+
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-prev {
 	margin-top: -35px;
 }
-.wpcp-carousel-section.nav-vertical-center .slick-next {
-	right: 0;
+
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next {
+	right: -5px;
 	text-align: right;
+	left: auto;
 }
 
 /*--------------------------------------------------------------
 ## Carousel Pagination Dots
 --------------------------------------------------------------*/
-.wpcp-carousel-section ul.slick-dots {
-	list-style: none;
-	padding: 0 !important;
-	margin: 0;
-	text-align: center;
-	margin-top: 18px;
-	position: relative;
+.wpcp-carousel-section .wpcp-swiper-dots {
+	position: inherit;
+	margin-top: 10px;
 }
-.wpcp-carousel-section ul.slick-dots li {
-	display: inline;
-	margin: 0;
-}
-.wpcp-carousel-section ul.slick-dots li button {
+
+.wpcp-carousel-section .wpcp-swiper-dots .swiper-pagination-bullet {
 	background-color: #cccccc;
 	border: 0 solid;
 	border-radius: 50%;
@@ -375,16 +418,101 @@
 	width: 12px;
 	height: 12px;
 	cursor: pointer;
-}
-.wpcp-carousel-section ul.slick-dots,
-.wpcp-carousel-section ul.slick-dots li,
-.wpcp-carousel-section ul.slick-dots li button {
-	line-height: 1 !important;
-}
-.wpcp-carousel-section ul.slick-dots li button:focus {
-	outline: none;
+	opacity: 1;
 }
 
-.wpcp-carousel-section ul.slick-dots li.slick-active button {
-	background-color: #666;
+/* Gallery CSS */
+.wpcpro-row.no-gutters>[class*="wpcpro-col-"] {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.wpcpro-row>[class*="wpcpro-col-"] {
+	padding: 0 10px;
+	padding-bottom: 20px;
+}
+
+.wpcpro-row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -10px;
+	margin-left: -10px;
+}
+
+/* .wpcp-standard .wpcp-gallery-wrapper {
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+	margin-left: -20px;
+}
+
+.wpcp-standard .wpcp-gallery-wrapper {
+	width: calc(100% / 4);
+	min-width: calc(100% / 4);
+	padding-left: 20px;
+} */
+
+/* Pagination css */
+.wpcpro-post-pagination .ajax-page-numbers,
+.wpcpro-post-pagination .page-numbers {
+	background: #fff;
+	color: #5e5e5e;
+	border: 2px solid #bbb;
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	font-size: 16px;
+	text-align: center;
+	display: inline-block;
+	margin-right: 4px;
+	text-decoration: none;
+	font-weight: 700;
+	border-radius: 3px;
+	-webkit-transition: all 0.33s;
+	transition: all 0.33s;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.wpcpro-post-pagination .ajax-page-numbers.current,
+.wpcpro-post-pagination .page-numbers.current {
+	cursor: auto;
+	color: #fff;
+	background: #178087;
+	border-color: #178087;
+}
+
+.wpcpro-post-pagination-number {
+	margin-top: 20px;
+}
+
+.wpcpro-post-pagination a.page-numbers:hover,
+.wpcpro-post-pagination span.current,
+.wpcpro-post-pagination span:hover {
+	color: #fff;
+	background: #178087;
+	border-color: #178087;
+}
+
+.wpcp-single-item {
+	direction: ltr;
+}
+
+html[dir="rtl"] .wpcp-single-item {
+	direction: rtl;
+}
+
+.wpcp-carousel-section .wpcp-slide-image {
+	font-size: 0;
+	text-align: center;
+}
+.wpcp-carousel-section i.fa {
+	font-style: normal;
+}
+.block-editor-page a.sp_wp_carousel_block_edit_button,
+a.sp_wp_carousel_block_edit_button {
+	display: inline-block;
+	text-decoration: underline;
+	font-size: 16px;
+	margin: 10px 0;
 }

@@ -1,7 +1,12 @@
 <?php
 use NF_Exports_Interfaces_SubmissionCsvExportInterface As SubmissionCsvExportInterface;
 use NF_Exports_Interfaces_SubmissionCollectionInterface As SubmissionCollectionInterface;
-use NF_Exports_Interfaces_SingleSubmissionInterface as SingleSubmissionInterface;
+
+use NinjaForms\Includes\Entities\SubmissionField;
+use NinjaForms\Includes\Entities\SingleSubmission;
+
+use NinjaForms\Includes\Handlers\SubmissionAggregateCsvExportAdapter;
+use NinjaForms\Includes\Handlers\SubmissionAggregate;
 /**
  * 
  */
@@ -12,6 +17,12 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * @var SubmissionCollectionInterface
      */
     public $submissionCollection;
+
+    /** @var SubmissionAggregate */
+    protected $submissionAggregate;
+
+    /** @var  SubmissionAggregateCsvExportAdapter */
+    protected $submissionAggregateCsvExportAdapter;
 
     /**
      * Use admin labels boolean
@@ -31,6 +42,13 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * @var array
      */
     protected $submissionIds;
+
+    /**
+     * Lookup of NF submission SeqNum by collection Index
+     * 
+     * @var array
+     */
+    protected $seqNumLookup;
 
     /**
      * Field labels keyed on field key
@@ -66,26 +84,57 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * Generate CSV output and return
      * @return string
      */
-    public function handle()/* :string*/ {
+    public function handle()/* :string*/
+    {
         $this->constructLabels();
-        $this->csvValuesCollection[] = $this->csvLabels;
-        $this->appendCsvRows();
+
+        $this->csvValuesCollection[0][0] = $this->csvLabels;
+
+        $this->appendRows();
+
         $returned = $this->prepareCsv();
 
         return $returned;
+    }
+
+    /** @inheritDoc */
+    public function reverseSubmissionOrder(): array
+    {
+        $submissionCollection = $this->submissionAggregateCsvExportAdapter->submissionAggregate->getAggregatedSubmissions();
+
+        $indicesOriginalOrder= array_keys($submissionCollection);
+
+        $return = array_reverse($indicesOriginalOrder);
+
+        return $return;
+    }
+
+    /** @inheritDoc */
+    public function constructRow( $aggregatedKey):array
+    {
+        $singleSubmission = $this->submissionAggregateCsvExportAdapter->submissionAggregate->getSubmissionValuesByAggregatedKey($aggregatedKey);
+
+        $this->constructSeqNumLookup($aggregatedKey, $singleSubmission);
+
+        $row = $this->constructSubmissionRow($aggregatedKey, $singleSubmission);
+
+        return $row;
     }
 
     /**
      * Construct string output from previously set params, mark submissions read
      * @return string
      */
-    protected function prepareCsv(){
-        
-      // Get any extra data from our other plugins...
-        $csv_array = apply_filters( 'nf_subs_csv_extra_values', $this->csvValuesCollection, $this->submissionIds, $this->submissionCollection->getFormId() );
+    protected function prepareCsv()
+    {
+        $nfSubs = [];
+        foreach($this->submissionIds as $submissionId){
+            $nfSubs[]=Ninja_Forms()->form(  )->get_sub( $submissionId );
+        }
 
-            $this->markSubmmissionsExported();
-            
+      // Get any extra data from our other plugins...
+        $csv_array = apply_filters( 'nf_subs_csv_extra_values', $this->csvValuesCollection, $nfSubs, $this->submissionAggregateCsvExportAdapter->submissionAggregate->getMasterFormId() );
+
             $output =    WPN_Helper::str_putcsv( $csv_array,
                 apply_filters( 'nf_sub_csv_delimiter', ',' ),
                 apply_filters( 'nf_sub_csv_enclosure', '"' ),
@@ -95,58 +144,64 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
             return $output;
     }
 
-    
     /**
-     * Record that each submission in the 
+     * Append each submission from the collection as a row
      */
-    protected function markSubmmissionsExported() {
-        foreach ($this->submissionCollection->getSubmissions() as $submission) {
-            $submission->setExportDatetime(time());
+    protected function appendRows()
+    {
+        $indices = $this->reverseSubmissionOrder();
+        // populate submission values for each submission in the collection, then append
+        foreach ($indices as $index) {
+
+            $row = $this->constructRow($index);
+
+            $this->csvValuesCollection[1][0][] = $row;
         }
     }
-    
-    
-    /**
-     * Construct all the CSV rows from the submission collection
-     */
-    protected function appendCsvRows() {
-        $collection = $this->submissionCollection
-                ->getSubmissions();
 
-        foreach ($collection as $submission) {
-            $row = $this->constructSubmissionRow($submission);
-            $this->csvValuesCollection[] = $row;
+    /**
+     * For NF CPT, construct lookup from index for SeqNum
+     *
+     * @param string $aggregatedKey
+     * @param SingleSubmission $singleSubmission
+     * @return void
+     */
+    protected function constructSeqNumLookup(string $aggregatedKey, SingleSubmission $singleSubmission): void
+    {
+        $dataSource = $singleSubmission->getDataSource();
+
+        // only add seq number for NF CPT
+        if('nf_post'!== $dataSource){
+            return;
         }
+
+        $this->seqNumLookup[$aggregatedKey]= get_post_meta($singleSubmission->getSubmissionRecordId(), '_seq_num', TRUE); 
     }
 
     /**
      * Construct a single row in the CSV from a submission 
-     * @param SingleSubmissionInterface $submission
+     * 
+     * @todo Refactor to remove DB call for NF()->form()->field() on each iteration
+     * @param SingleSubmission $submission
      * @return array
      */
-    protected function constructSubmissionRow(/*SingleSubmissionInterface*/ $submission)/* :array */ {
-        $row['_seq_num'] = $submission->getSeqNum();
-        $row['_date_submitted'] = $submission->getSubmissionDate($this->dateFormat);
+    protected function constructSubmissionRow(string $aggregatedKey, SingleSubmission $submission)/* :array */ {
 
-        $submissionValues = $submission->filterFieldValues($this->fieldLabels);
-        $formId = $this->submissionCollection->getFormId();
-        foreach ($submissionValues as $fieldKey => $rawValue) {
+        // Add the standard fields
+        $seqNum = '';
 
-            $fieldId = $this->fieldIds[$fieldKey];
-            $fieldType = $this->fieldTypes[$fieldKey];
-            $field_value = maybe_unserialize($rawValue);
-            $field = Ninja_Forms()->form()->field($fieldId)->get();
-            
-            $field_value = apply_filters('nf_subs_export_pre_value', $field_value, $fieldId);
-            $field_value = apply_filters('ninja_forms_subs_export_pre_value', $field_value, $fieldId, $formId);
-            $field_value = apply_filters('ninja_forms_subs_export_field_value_' . $fieldType, $field_value, $field);
-
-            if (is_array($field_value)) {
-                $field_value = implode(',', $field_value);
-            }
-
-            $row[$fieldId] = $field_value;
+        if(isset($this->seqNumLookup[$aggregatedKey])){
+            $seqNum = $this->seqNumLookup[$aggregatedKey];
         }
+
+        $row['_seq_num'] = $seqNum; 
+
+        $row['_date_submitted'] = $this->formatTimestamp($submission->getTimestamp());
+
+        $columnValues = $this->submissionAggregateCsvExportAdapter->getColumnValuesByAggregatedKey($aggregatedKey);
+
+        $row= array_merge($row,$columnValues);
+       
         $strippedRow = WPN_Helper::stripslashes($row);
         // Legacy Filter from 2.9.*
         $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
@@ -155,13 +210,42 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
     }
 
     /**
-     * Construct labels array
+     * Format timestamp for output
+     *
+     * @param string $timestamp
+     * @return string
      */
-    protected function constructLabels() {
+    protected function formatTimestamp(string $timestamp): string
+    {
+        $dt = DateTime::createFromFormat('Y-m-d H:i:s',$timestamp);
 
+        $return = $dt->format($this->dateFormat);
+        
+        return $return;
+    }
+
+    /**
+     * Construct labels array
+     * 
+     * Indexed array of labels, which serves as the column headers
+     */
+    protected function constructLabels() 
+    {
         $this->csvLabels = array_merge($this->getFieldLabelsBeforeFields(), array_values($this->fieldLabels));
     }
 
+    /**
+     * Return labels for the CSV, including SeqNum and Date
+     *
+     * @return array
+     */
+    public function getLabels( ): array
+    {   
+        if(empty($this->csvLabels)){
+            $this->constructLabels();
+        }
+        return $this->csvLabels;
+    }
     /**
      * Return filtered array of labels preceding fields
      * 
@@ -181,15 +265,40 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
 
     /**
      * Set submission collection used in generating the CSV
+     * 
+     * @todo Investigate reason for commented out type declarations
      * @param SubmissionCollectionInterface $submissionCollection
      * @return SubmissionCsvExportInterface
      */
-    public function setSubmissionCollection(/* SubmissionCollectionInterface */ $submissionCollection)/* :SubmissionCsvExportInterface */ {
-        $this->submissionCollection = $submissionCollection;
-        $this->fieldLabels = $this->submissionCollection->getLabels($this->useAdminLabels);
-        $this->fieldTypes = $this->submissionCollection->getFieldTypes();
-        $this->fieldIds = $this->submissionCollection->getFieldIds();
-        $this->submissionIds = $this->submissionCollection->getSubmissionIds();
+    public function setSubmissionCollection(/* SubmissionCollectionInterface */$submissionCollection)/* :SubmissionCsvExportInterface */
+    {
+        return $this;
+    }
+
+    /**
+     * Set SubmissionAggregateCsvExport Adapter used in generating the CSV
+     *
+     * @param SubmissionAggregateCsvExportAdapter $submissionAggregateCsvExportAdapter
+     * @return SubmissionCsvExportInterface
+     */
+    public function setSubmissionAggregateCsvExportAdapter(SubmissionAggregateCsvExportAdapter $submissionAggregateCsvExportAdapter)/* :SubmissionCsvExportInterface */
+    {
+        $this->setDateFormat();
+        
+        $this->submissionAggregateCsvExportAdapter = $submissionAggregateCsvExportAdapter;
+
+        $this->submissionAggregateCsvExportAdapter->setHiddenFieldTypes([
+            'html', 'submit', 'divider', 'hr', 'note', 'unknown', 'button', 'confirm'
+        ]);
+        
+        $this->fieldLabels = $this->submissionAggregateCsvExportAdapter->getLabels($this->useAdminLabels);
+
+        $this->fieldTypes = $this->submissionAggregateCsvExportAdapter->getFieldTypes();
+
+        $this->fieldIds = $this->submissionAggregateCsvExportAdapter->getFieldIds();
+
+        $this->submissionIds = $this->submissionAggregateCsvExportAdapter->getSubmissionIds();
+
         return $this;
     }
 
@@ -199,7 +308,7 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * @param bool $useAdminLabels
      * @return SubmissionCsvExportInterface
      */
-    public function setUseAdminLabels($useAdminLabels)/* :SubmissionCsvExportInterface */ {
+    public function setUseAdminLabels($useAdminLabels) :SubmissionCsvExportInterface  {
         $this->useAdminLabels = $useAdminLabels;
         return $this;
     }
@@ -210,8 +319,23 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * @param string $dateFormat
      * @return SubmissionCsvExportInterface
      */
-    public function setDateFormat(/* string */$dateFormat)/* :SubmissionCsvExportInterface */ {
-        $this->dateFormat = $dateFormat;
+    public function setDateFormat(/* string */$dateFormat = null)/* :SubmissionCsvExportInterface */ {
+        if(!empty($dateFormat)) {
+            //Set new date format
+            $date_format = $dateFormat;
+        } else if( !empty( Ninja_Forms()->get_setting( 'date_format' ) ) ) {
+            //Or get NF Date format set
+            $date_format = Ninja_Forms()->get_setting( 'date_format' );
+        } else if(!empty( get_option('date_format'))) {
+            //Or get WP date format set
+            $date_format =  get_option('date_format');
+        } else {
+            //Or leave default
+            $date_format = $this->dateFormat;
+        }
+        
+        $this->dateFormat = $date_format;
+
         return $this;
     }
 

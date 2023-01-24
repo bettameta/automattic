@@ -27,7 +27,7 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 		}
 
 		$output = apply_filters( 'sp_wcfgallery_shortcode', '', $attr );
-		if ( '' != $output ) {
+		if ( '' !== $output ) {
 			return $output;
 		}
 
@@ -38,7 +38,7 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 			}
 		}
 
-		extract(
+		extract( // @codingStandardsIgnoreLine
 			shortcode_atts(
 				array(
 					'ids'                 => '',
@@ -61,11 +61,14 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 					'size'                => 'medium',
 					'include'             => '',
 					'exclude'             => '',
-				), $attr, 'gallery'
+					'carousel_direction'  => 'ltr',
+				),
+				$attr,
+				'gallery'
 			)
 		);
 
-		// helper function to return shortcode regex match on instance occurring on page or post.
+		// Helper function to return shortcode regex match on instance occurring on page or post.
 		if ( ! function_exists( 'get_match' ) ) {
 			/**
 			 * Find and match gallery shortcode
@@ -87,18 +90,21 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 
 		// get the ids specified in the shortcode call.
 		if ( is_array( $ids ) ) {
-			$ids = $shortcode_args['ids'];
+			if ( isset( $shortcode_args['ids'] ) ) {
+				$ids = $shortcode_args['ids'];
+			}
 		}
 
 		$id      = uniqid();
 		$order   = 'DESC';
 		$orderby = 'title';
 
-		if ( 'RAND' == $order ) {
+		if ( 'RAND' === $order ) {
 			$orderby = 'none';
 		}
 
 		if ( ! empty( $ids ) ) {
+
 			$_attachments = get_posts(
 				array(
 					'include'        => $ids,
@@ -141,16 +147,31 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 			return $output;
 		}
 
-		$gallery_style = $gallery_div = '';
+		$gallery_style = '<style type="text/css">#wordpress-carousel-free-' . esc_attr( $id ) . '.wpcp-carousel-section .wpcp-swiper-dots .swiper-pagination-bullet.swiper-pagination-bullet-active {
+			background: #178087;
+		}</style>';
+		$gallery_div   = '';
 
 		// Carousel Configurations.
-		wp_enqueue_script( 'wpcf-slick' );
-		wp_enqueue_script( 'wpcf-slick-config' );
-		$rtl     = ( 'ltr' === $carousel_direction ) ? 'true' : 'false';
-		$wpcp_slick_options = 'data-slick=\'{ "accessibility": true, "arrows":' . $nav . ', "autoplay":' . $auto_play . ', "autoplaySpeed":' . $autoplay_speed . ', "dots":' . $bullets . ', "infinite":' . $infinite . ', "speed":' . $speed . ', "pauseOnHover":' . $pause_on_hover . ', "slidesToShow":' . $items . ', "responsive":[ { "breakpoint":1200, "settings": { "slidesToShow":' . $items_desktop . ' } }, { "breakpoint":980, "settings":{ "slidesToShow":' . $items_desktop_small . ' } }, { "breakpoint":736, "settings": { "slidesToShow":' . $items_tablet . ' } }, {"breakpoint":480, "settings":{ "slidesToShow":' . $items_mobile . ', "arrows":' . $nav_mobile . ',  "dots":' . $bullets_mobile . ' } } ], "rows":1, "rtl":' . $rtl . ', "swipe":' . $swipe . ', "draggable":' . $draggable . ' }\' ';
 
-		$gallery_div = "	
-		<div id='wordpress-carousel-free-$id' class='wpcp-carousel-section wpcp-standard nav-vertical-center' $wpcp_slick_options>";
+		wp_enqueue_style( 'wpcf-swiper' );
+		wp_enqueue_style( 'wp-carousel-free-fontawesome' );
+		wp_enqueue_style( 'wp-carousel-free' );
+		wp_enqueue_script( 'wpcf-swiper-js' );
+		wp_enqueue_script( 'wpcf-swiper-config' );
+
+		$wpcp_screen_sizes = wpcf_get_option( 'wpcp_responsive_screen_setting' );
+		$desktop_size      = isset( $wpcp_screen_sizes['desktop'] ) && ! empty( $wpcp_screen_sizes['desktop'] ) ? $wpcp_screen_sizes['desktop'] : '1200';
+		$laptop_size       = isset( $wpcp_screen_sizes['laptop'] ) && ! empty( $wpcp_screen_sizes['laptop'] ) ? $wpcp_screen_sizes['laptop'] : '980';
+		$tablet_size       = isset( $wpcp_screen_sizes['tablet'] ) && ! empty( $wpcp_screen_sizes['tablet'] ) ? $wpcp_screen_sizes['tablet'] : '736';
+		$mobile_size       = isset( $wpcp_screen_sizes['mobile'] ) && ! empty( $wpcp_screen_sizes['mobile'] ) ? $wpcp_screen_sizes['mobile'] : '480';
+
+		$rtl = ( 'ltr' === $carousel_direction ) ? 'true' : 'false';
+
+		$swipetoslide        = esc_attr( $swipe ) ? true : false;
+		$wpcp_swiper_options = 'data-swiper=\'{ "accessibility":true, "arrows":' . esc_attr( $nav ) . ', "autoplay":' . esc_attr( $auto_play ) . ', "autoplaySpeed":' . esc_attr( intval( $autoplay_speed ) ) . ', "dots":' . esc_attr( $bullets ) . ', "infinite":' . esc_attr( $infinite ) . ', "speed":' . esc_attr( intval( $speed ) ) . ', "pauseOnHover":' . esc_attr( $pause_on_hover ) . ', "spaceBetween": 20, "slidesToShow":{"lg_desktop":' . esc_attr( intval( $items ) ) . ', "desktop": ' . esc_attr( intval( $items_desktop ) ) . ', "laptop": ' . esc_attr( intval( $items_desktop_small ) ) . ', "tablet": ' . esc_attr( intval( $items_tablet ) ) . ', "mobile": ' . esc_attr( intval( $items_mobile ) ) . '}, "responsive":{"desktop":' . esc_attr( intval( $desktop_size ) ) . ', "laptop": ' . esc_attr( intval( $laptop_size ) ) . ', "tablet": ' . esc_attr( intval( $tablet_size ) ) . ', "mobile": ' . esc_attr( intval( $mobile_size ) ) . '}, "rtl":' . esc_attr( $rtl ) . ', "lazyLoad": false, "swipe": ' . esc_attr( $swipe ) . ', "draggable": ' . esc_attr( $draggable ) . ', "swipeToSlide":' . esc_attr( $swipetoslide ) . ', "freeMode": false }\' ';
+
+		$gallery_div = "<div class='wpcp-carousel-wrapper wpcp-wrapper-" . esc_attr( $id ) . "'><div id='wordpress-carousel-free-" . esc_attr( $id ) . "' class='wpcp-carousel-section wpcp-standard nav-vertical-center' " . wp_kses_post( $wpcp_swiper_options ) . "><div class='swiper-wrapper'>";
 
 		$output = apply_filters( 'gallery_style', $gallery_style . $gallery_div );
 
@@ -159,13 +180,23 @@ if ( ! function_exists( 'wp_carousel_free_shortcode' ) ) {
 			$wcf_image_title = $attachment->post_title;
 
 			$output .= "
+			<div class='swiper-slide'>
 			<div class='wpcp-single-item'>
-				<img src='$wcf_image_url[0]' alt='$wcf_image_title' />
+				<img src='" . esc_url( $wcf_image_url[0] ) . "' alt='" . esc_attr( $wcf_image_title ) . "' />
+			</div>
 			</div>";
 		}
+		$output .= '</div>';
 
+		if ( $bullets ) {
+			$output .= '<div class="wpcp-swiper-dots swiper-pagination"></div>';
+		}
+		if ( $nav ) {
+			$output .= '<div class="wpcp-prev-button swiper-button-prev"><i class="fa fa-angle-left"></i></div>
+			<div class="wpcp-next-button swiper-button-next"><i class="fa fa-angle-right"></i></div>';
+		}
 		$output .= "
-			</div>\n";
+		</div></div>\n";
 
 		return $output;
 	}
